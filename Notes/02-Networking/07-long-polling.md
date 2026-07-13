@@ -4,7 +4,7 @@ Long Polling is a technique used to achieve **near real-time communication** usi
 
 It was introduced to reduce the unnecessary requests made by **regular polling** before WebSockets became widely available.
 
-<h2>Why Do We Need Long Polling?</h2>
+<h3>Why Do We Need Long Polling?</h3>
 
 First, let's recall how HTTP works.
 
@@ -110,8 +110,6 @@ Huge waste of:
 - Bandwidth
 - Server Resources
 
----
-
 <h2>What is Long Polling?</h2>
 
 > **Definition : Long Polling is an HTTP technique where the server keeps the request open until new data is available or a timeout occurs.**
@@ -119,8 +117,6 @@ Huge waste of:
 Simply:
 
 > **Long Polling = Request once, wait for new data.**
-
----
 
 <h2>How Long Polling Works</h2>
 
@@ -169,9 +165,6 @@ Server
    │
 Connection Closed
 ```
-
----
-
 <h2>What Happens Next?</h2>
 
 After receiving the message,
@@ -191,8 +184,6 @@ Wait Again
 ```
 
 This cycle continues.
-
----
 
 <h2>Visual Flow</h2>
 
@@ -216,8 +207,6 @@ Server
 ```
 
 Lots of unnecessary requests.
-
----
 
 ### Long Polling
 
@@ -244,8 +233,6 @@ Client Sends New Request
 
 Much fewer requests.
 
----
-
 <h2>Real-Life Analogy</h2>
 
 Imagine you're waiting outside a classroom.
@@ -262,13 +249,7 @@ Has the teacher come?
 
 Most of the time,
 
-the answer is:
-
-```text
-No.
-```
-
----
+the answer is:No.
 
 ### Long Polling
 
@@ -285,8 +266,6 @@ The moment the teacher comes,
 they tell you.
 
 Much smarter.
-
----
 
 <h2>Why is Long Polling Better than Polling?</h2>
 
@@ -308,8 +287,6 @@ Long Polling may only require:
 ```
 
 Less unnecessary traffic.
-
----
 
 <h2>Why Not Just Use WebSockets?</h2>
 
@@ -333,8 +310,6 @@ New Request
 
 A new HTTP request is created after every response.
 
----
-
 ### WebSocket
 
 ```text
@@ -351,8 +326,6 @@ No repeated requests.
 
 The server can push updates anytime.
 
----
-
 <h2>Polling vs Long Polling vs WebSocket</h2>
 
 | Polling | Long Polling | WebSocket |
@@ -361,8 +334,6 @@ The server can push updates anytime.
 | High Network Usage | Medium Network Usage | Low Network Usage |
 | Poor Real-Time | Better | Best |
 | Very Simple | Moderate | Best for Real-Time Applications |
-
----
 
 <h2>Where is Long Polling Used?</h2>
 
@@ -374,23 +345,17 @@ You might still see it in:
 - Systems where WebSockets aren't available
 - Older Infrastructure
 
----
-
 <h2>Advantages</h2>
 
-- ✅ Better than regular polling
-- ✅ Works with standard HTTP
-- ✅ Easier to support in environments where WebSockets aren't available
-
----
+-  Better than regular polling
+-  Works with standard HTTP
+-  Easier to support in environments where WebSockets aren't available
 
 <h2>Disadvantages</h2>
 
-- ❌ Creates a new HTTP request after every response
-- ❌ More server resources than WebSockets
-- ❌ Doesn't scale as efficiently as WebSockets for many real-time users
-
----
+-  Creates a new HTTP request after every response
+-  More server resources than WebSockets
+-  Doesn't scale as efficiently as WebSockets for many real-time users
 
 <h2>System Design Perspective</h2>
 
@@ -399,7 +364,7 @@ Imagine you're designing a chat application.
 Today, you'd usually choose:
 
 ```text
-✅ WebSockets
+ WebSockets
 ```
 
 But if your environment doesn't support WebSockets,
@@ -412,17 +377,11 @@ is a reasonable alternative.
 
 That's why interviewers may still ask about it.
 
----
-
-<h2>Interview Questions</h2>
-
 ### Q1. What is Polling?
 
 **Answer:**
 
 Polling is a technique where the client repeatedly sends requests to the server at fixed intervals to check for new data.
-
----
 
 ### Q2. What is Long Polling?
 
@@ -430,52 +389,16 @@ Polling is a technique where the client repeatedly sends requests to the server 
 
 Long Polling is an HTTP technique where the server keeps the request open until new data is available or a timeout occurs.
 
----
-
-### Q3. Why was Long Polling invented?
-
-**Answer:**
-
-Because regular polling wastes resources by repeatedly asking for updates even when no new data exists.
-
-Long Polling reduces unnecessary requests by waiting until new data is available.
-
----
-
-### Q4. What is the difference between Polling and Long Polling?
-
-| Polling | Long Polling |
-|----------|--------------|
-| Server responds immediately | Server waits before responding |
-| Many unnecessary requests | Fewer requests |
-| Higher network overhead | Lower network overhead |
-
----
-
-### Q5. Long Polling vs WebSocket?
-
-| Long Polling | WebSocket |
-|--------------|-----------|
-| Uses HTTP | Uses WebSocket Protocol |
-| New request after every response | One persistent connection |
-| Near Real-Time | True Real-Time |
-| Higher overhead | Lower overhead |
-
----
-
 <h2>Memory Trick</h2>
 
-📬 **Polling = Keep Knocking**
+ **Polling = Keep Knocking**
 
 Every few seconds you ask:
 
 ```text
 Any Updates?
 ```
-
----
-
-🚪 **Long Polling = Wait at the Door**
+ **Long Polling = Wait at the Door**
 
 Knock once.
 
@@ -483,15 +406,12 @@ Wait.
 
 The door opens only when there's something to tell you.
 
----
-
-📞 **WebSocket = Stay on the Phone**
+**WebSocket = Stay on the Phone**
 
 Connection stays open.
 
 Both sides can talk anytime.
 
----
 
 <h2>Key Takeaways</h2>
 
