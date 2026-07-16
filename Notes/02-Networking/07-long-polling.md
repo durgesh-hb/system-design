@@ -4,8 +4,6 @@ Long Polling is a technique used to achieve **near real-time communication** usi
 
 It was introduced to reduce the unnecessary requests made by **regular polling** before WebSockets became widely available.
 
----
-
 <h2>Why Do We Need Long Polling?</h2>
 
 First, let's recall how HTTP works.
@@ -35,8 +33,6 @@ No.
 ```
 
 Connection closes.
-
----
 
 <h2>The Problem</h2>
 
@@ -72,8 +68,6 @@ Server
 
 This is called **Polling**.
 
----
-
 <h2>What is Polling?</h2>
 
 > **Definition : Polling means the client repeatedly asks the server for new data at fixed intervals.**
@@ -95,8 +89,6 @@ Server
 Even if nothing changes,
 
 the request is still made.
-
----
 
 <h2>Problem with Polling</h2>
 
