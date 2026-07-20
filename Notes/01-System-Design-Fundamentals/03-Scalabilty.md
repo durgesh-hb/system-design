@@ -13,8 +13,7 @@ I. Vertical Scaling (Scale Up)
 
 II. Horizontal Scaling (Scale Out)
 
-<!-- <img width="700" height="450" alt="image" src="" /> -->
-![Types of Scalability](../../images/types_of_Scalability.PNG)
+<img src=/images/types_of_Scalability.PNG alt="scalability types" width="80%" height="400">
 
 
 <h2> -> Vertical Scaling (Scale Up)</h2> 
