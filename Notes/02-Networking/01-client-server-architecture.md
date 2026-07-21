@@ -183,7 +183,6 @@ One server doesn't serve just one person.
 
 Thousands or even millions of clients can connect to the same server.
 
----
 
 <h2>Multiple Servers</h2>
 
@@ -197,20 +196,14 @@ One server isn't enough.
            Users
               │
               ▼
-
         Load Balancer
-
-       ┌─────┴─────┐
-       ▼           ▼
-   Server 1    Server 2
-                    │
-                    ▼
-                Server 3
+        ┌─────┴─────┐        
+        ▼           ▼
+    Server 1    Server 2 .......
+                   
 ```
 
 We'll learn about **Load Balancers** later.
-
----
 
 <h2>Client Doesn't Know Everything</h2>
 
@@ -225,8 +218,6 @@ It only knows:
 
 - "I asked for data."
 - "I received data."
-
----
 
 <h2>Stateless Communication (Preview)</h2>
 
@@ -246,11 +237,9 @@ Request 2
 Response
 ```
 
-The server doesn't automatically remember previous requests.
+> The server doesn't automatically remember previous requests.
 
 We'll study **Statelessness** in detail when we cover **HTTP**.
-
----
 
 <h2>Why Use Client-Server Architecture?</h2>
 
@@ -269,165 +258,26 @@ Keep the data on centralized servers.
 
 Clients simply request what they need.
 
----
-
-<h2>Advantages</h2>
-
-### 1. Centralized Data
-
-Everything is stored on the server.
-
----
-
-### 2. Better Security
-
-Sensitive logic and data stay on the server.
-
----
-
-### 3. Easy Updates
-
-Update the server once.
-
-Every client benefits.
-
----
-
-### 4. Easy Maintenance
-
-Fix one backend.
-
-Millions of users get the improvement.
-
----
-
-<h2>Disadvantages</h2>
-
-### 1. Server Failure
-
-If the server crashes...
-
-Clients can't get data.
-
----
-
-### 2. Network Dependency
-
-No internet?
-
-No communication.
-
----
-
-### 3. High Traffic
-
-Millions of clients may overload the server.
-
-That's why we need:
-
-- Load Balancers
-- Caching
-- Horizontal Scaling
-
----
-
-<h2>Real-World Examples</h2>
-
-### WhatsApp
-
-**Client**
-
-- Mobile App
-
-**Server**
-
-- Stores messages
-- User status
-- Media
-- Routes messages
-
----
-
-### Netflix
-
-**Client**
-
-- TV App
-
-**Server**
-
-- Streams videos
-- Provides recommendations
-
----
-
-### Amazon
-
-**Client**
-
-- Website
-- Mobile App
-
-**Server**
-
-- Handles search
-- Cart
-- Orders
-- Payments
-
----
-
-<h2>Interview Questions</h2>
-
-### Q1. What is a Client?
-
-**Answer:**
-
-A program or device that requests data or services.
-
----
-
-### Q2. What is a Server?
-
-**Answer:**
-
-A program or computer that processes requests and returns responses.
-
----
-
-### Q3. Can one server handle multiple clients?
-
-✅ Yes.
-
-Thousands or even millions of clients can connect to the same server.
-
----
-
-### Q4. Can one client communicate with multiple servers?
-
-✅ Yes.
-
-For example, a web page may fetch data from different backend services or content from a CDN.
-
----
-
-<h2>Memory Trick</h2>
-
-Think of a restaurant.
-
-> **Client = Customer who places the order.**
-
-> **Server = Kitchen that prepares the food.**
-
-> **Response = Food delivered back to the customer.**
-
-The customer requests.
-
-The kitchen processes.
-
-The customer receives the result.
-
----
+<h3> Advantages</h3>
+ <ol>
+  <li> Centralized Data -> Everything is stored on the server.</li>
+  <li> Better Security -> Sensitive logic and data stay on the server.</li>
+  <li> Easy Updates -> Update the server once. Every client benefits.</li>
+  <li> Easy Maintenance -> Fix one backend. Millions of users get the improvement.</li>
+</ol>
+
+<h3>Disadvantages</h3>
+
+<ol>
+  <li> Server Failure -> If the server crashes... Clients can't get data.</li>
+  <li> Network Dependency -> No internet? No communication.</li>
+  <li> High Traffic ->Millions of clients may overload the server.
+  That's why we need:
+  
+  - Load Balancers
+  - Caching
+  - Horizontal Scaling</li>
+</ol>
 
 <h2>Key Takeaways</h2>
 
