@@ -4,9 +4,7 @@ HTTP and HTTPS are the foundation of communication between a **Client** and a **
 
 Without understanding HTTP, topics like **REST APIs, Load Balancers, Authentication, WebSockets, and Microservices** become much harder to understand.
 
----
-
-<h2>Why Do We Need HTTP?</h2>
+<h3>Why Do We Need HTTP?</h3>
 
 Imagine you open Instagram.
 
@@ -25,8 +23,6 @@ There needs to be a common language between the client and the server.
 
 That language is **HTTP**.
 
----
-
 <h2>What is HTTP?</h2>
 
 > **Definition : HTTP (HyperText Transfer Protocol) is the standard protocol used for communication between a client and a server.**
@@ -35,9 +31,8 @@ Simply:
 
 > **HTTP = The language that clients and servers use to communicate.**
 
----
 
-<h2>Communication Flow</h2>
+<h3>Communication Flow</h3>
 
 ```text
 Client (Browser / Mobile App)
@@ -51,9 +46,7 @@ Client (Browser / Mobile App)
 Client Displays Data
 ```
 
----
-
-<h2>HTTP Request & Response</h2>
+<h3>HTTP Request & Response</h3>
 
 Whenever you perform an action,
 
@@ -78,26 +71,7 @@ Response may contain:
 - HTML
 - JSON
 
-Think of it like ordering food.
-
-```text
-Customer
-    │
-  Order
-    │
-    ▼
-Restaurant
-    │
-  Food
-    ▼
-Customer
-```
-
-Exactly the same idea.
-
----
-
-<h2>Common HTTP Methods</h2>
+<h3>Common HTTP Methods</h3>
 
 These tell the server what action you want to perform.
 
@@ -109,27 +83,9 @@ These tell the server what action you want to perform.
 | PATCH | Update Part of Existing Data | Change Only Email |
 | DELETE | Remove Data | Delete Account |
 
----
-
-<h2>Memory Trick</h2>
-
-```text
-GET    → Read
-
-POST   → Create
-
-PUT    → Replace
-
-PATCH  → Modify
-
-DELETE → Remove
-```
-
 These five methods are enough for most interviews.
 
----
-
-<h2>Statelessness (Very Important)</h2>
+<h3>Statelessness (Very Important)</h3>
 
 This is one of the most frequently asked interview concepts.
 
@@ -153,9 +109,7 @@ Response
 
 The second request is treated as completely new.
 
----
-
-<h2>Why is Stateless Good?</h2>
+<h3>Why is Stateless Good?</h3>
 
 Because **any server can handle any request.**
 
@@ -177,9 +131,8 @@ This makes **Horizontal Scaling** much easier.
 
 > **System Design Insight:** Statelessness is one of the reasons modern web applications can scale to millions of users.
 
----
 
-<h2>Then How Does a Website Remember I'm Logged In?</h2>
+<h3>Then How Does a Website Remember I'm Logged In?</h3>
 
 Good question.
 
@@ -203,9 +156,7 @@ Server Identifies User
 
 We'll study **JWT, Sessions, and OAuth** later.
 
----
-
-<h2>What is HTTPS?</h2>
+<h3>What is HTTPS?</h3>
 
 HTTP has one major problem.
 
@@ -221,7 +172,6 @@ Example:
 
 Not safe.
 
----
 
 <h2>HTTPS Solves This Problem</h2>
 
@@ -245,8 +195,6 @@ Even if someone intercepts the traffic,
 
 they cannot easily understand the data.
 
----
-
 <h2>SSL / TLS (High Level)</h2>
 
 People often ask:
@@ -267,9 +215,8 @@ TLS:
 
 You don't need to know the cryptography for most entry-level interviews.
 
----
 
-<h2>HTTP vs HTTPS</h2>
+<h3>HTTP vs HTTPS</h3>
 
 | HTTP | HTTPS |
 |------|-------|
@@ -278,7 +225,6 @@ You don't need to know the cryptography for most entry-level interviews.
 | Uses Port 80 | Uses Port 443 |
 | Suitable only for non-sensitive traffic | Used for almost all modern websites |
 
----
 
 <h2>Why HTTPS Matters in System Design?</h2>
 
