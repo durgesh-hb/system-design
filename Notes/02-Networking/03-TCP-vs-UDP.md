@@ -21,7 +21,7 @@ Question:Can even **₹1** be lost?
 
 The money must reach **exactly once** and **correctly**.
 
-### Situation 2 – Video Call 📹
+### Situation 2 – Video Call
 
 You're on a Google Meet call.
 
