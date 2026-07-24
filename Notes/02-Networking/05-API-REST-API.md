@@ -4,7 +4,7 @@ REST API is one of the most common ways for a **Client** and **Server** to commu
 
 Before understanding REST API, first understand what an **API** is.
 
-<h3>1. What is an API?</h3>
+<h3>What is an API?</h3>
 
 Imagine you're using a food delivery app.
 
@@ -41,7 +41,7 @@ Backend Server
 Database
 ```
 
-<h3>2. What is REST?</h3>
+<h3>What is REST?</h3>
 
 REST stands for:
 
@@ -57,7 +57,7 @@ Simply:
 
 > **REST API = API designed using REST principles.**
 
-<h2>3. What is a Resource?</h2>
+<h2>What is a Resource?</h2>
 
 > **Resource = Something your system manages.**
 
@@ -83,7 +83,7 @@ Resources can be:
 
 REST APIs expose these resources through URLs called **Endpoints**.
 
-<h3>4. What is an Endpoint?</h3>
+<h3>What is an Endpoint?</h3>
 
 > **Definition : An endpoint is a specific API address used to access a resource or operation.**
 
@@ -110,7 +110,7 @@ Means:
 ```text
 Product with ID 123
 ```
-<h3>5. REST + HTTP Methods</h3>
+<h3> REST + HTTP Methods</h3>
 
 HTTP methods tell the server what you want to do with a resource.
 
@@ -124,7 +124,6 @@ Means:
 
 > Give me products.
 
----
 
 ### Get Specific Product
 
@@ -136,7 +135,6 @@ Means:
 
 > Give me product 123.
 
----
 
 ### Create Product
 
@@ -147,8 +145,6 @@ POST /products
 Means:
 
 > Create a new product.
-
----
 
 ### Update Product
 
@@ -170,7 +166,7 @@ Means:
 
 > Delete product 123.
 
-<h3>6. REST and CRUD</h3>
+<h3>REST and CRUD</h3>
 
 CRUD means:
 
@@ -200,16 +196,14 @@ REST API
    └── DELETE     → Remove
 ```
 
-<h3>7. Example: Instagram</h3>
+<h3> Example: Instagram</h3>
 
 ### Load Feed
 
 ```text
 GET /posts
 ```
-
 Server returns posts.
-
 
 ### Upload Post
 
@@ -218,8 +212,6 @@ POST /posts
 ```
 
 Server creates the post.
-
----
 
 ### Edit Caption
 
@@ -239,7 +231,7 @@ Server deletes post 123.
 
 That's REST at a basic level.
 
-<h3>8. REST APIs Are Usually Stateless</h3>
+<h3> REST APIs Are Usually Stateless</h3>
 
 Remember HTTP Statelessness?
 
@@ -266,7 +258,7 @@ Each request should contain enough information for the server to understand and 
 
 This makes **Horizontal Scaling** much easier.
 
-<h3>9. Why REST is Popular</h3>
+<h3>Why REST is Popular</h3>
 
 REST APIs are:
 
@@ -279,7 +271,7 @@ REST APIs are:
 
 That's why you'll see REST everywhere in backend development.
 
-<h3>10. REST in System Design</h3>
+<h3>REST in System Design</h3>
 
 Imagine:
 
