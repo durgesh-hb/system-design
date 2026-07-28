@@ -370,9 +370,6 @@ JSON Response
    ▼
 Client
 ```
-
----
-
 <h3>REST Isn't the Only Option</h3>
 
 Important:
