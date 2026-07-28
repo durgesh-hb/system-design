@@ -6,7 +6,7 @@ This repository contains my personal notes, diagrams, references, and learning m
 
 The purpose of this repository is to document my learning journey, organize concepts in a structured way, and create a knowledge base for future revision and interview preparation.
 
-## 📂 Repository Structure
+## Repository Structure
 
 ```text
 System-Design/
@@ -18,7 +18,7 @@ System-Design/
 └── README.md
 ```
 
-## 🎯 Goals
+##  Goals
 
 - Learn System Design concepts step by step.
 - Write clear and organized notes.
@@ -26,7 +26,7 @@ System-Design/
 - Create architecture diagrams.
 - Build a strong foundation for interviews.
 
-## 📌 About
+##  About
 
 This repository is continuously updated as I learn new concepts and improve my understanding of System Design.
 
