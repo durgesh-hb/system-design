@@ -14,7 +14,7 @@ www.google.com
 
 Question:
 
-> **How does your computer know where Google's server is?**
+> How does your computer know where Google's server is?
 
 Does the Internet understand the word:
 
