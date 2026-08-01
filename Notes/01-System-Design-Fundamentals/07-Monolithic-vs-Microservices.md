@@ -26,7 +26,7 @@ There are two common approaches:
 <h2> -> 1. Monolithic Architecture</h2>
 
 > **Definition : A Monolithic Application is an application where all features are part of one single application.**
-
+they are hightly coupled 
 Everything is packaged and deployed together.
 
 ### Example
