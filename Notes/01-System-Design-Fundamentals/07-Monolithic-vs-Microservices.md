@@ -147,6 +147,7 @@ Changing one small feature often means rebuilding and redeploying the entire app
 <h2>-> 2. Microservices Architecture</h2>
 
 > **Definition : Instead of one huge application, split it into many small applications.**
+they are loosely coupled
 
 Each application performs one business function.
  Example
