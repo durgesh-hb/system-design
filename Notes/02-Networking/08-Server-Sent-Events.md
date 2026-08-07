@@ -4,8 +4,6 @@ Server-Sent Events (SSE) is a technology that allows a **Server** to continuousl
 
 Unlike WebSockets, communication is **one-way**.
 
----
-
 <h2>Why Do We Need SSE?</h2>
 
 Imagine you're watching a **live cricket score**.
@@ -16,11 +14,9 @@ the score updates automatically.
 
 Did you press **Refresh**?
 
-❌ No.
+ No.
 
 The server sent the updated score to your browser.
-
----
 
 <h2>The Problem</h2>
 
@@ -37,8 +33,6 @@ Connection Closed
 ```
 
 The server cannot send updates whenever it wants.
-
----
 
 With Long Polling:
 
