@@ -56,11 +56,9 @@ Can we keep one HTTP connection open
 
 and let the server continuously send updates?
 
-✅ Yes.
+Yes.
 
 That's **Server-Sent Events (SSE).**
-
----
 
 <h2>What is SSE?</h2>
 
@@ -69,8 +67,6 @@ That's **Server-Sent Events (SSE).**
 Simply:
 
 > **SSE = Server → Client communication over one long-lived HTTP connection.**
-
----
 
 <h2>Architecture</h2>
 
@@ -88,8 +84,6 @@ Communication is **only one-way**.
 
 - Server sends updates.
 - Client receives updates.
-
----
 
 <h2>Real-Life Analogy</h2>
 
@@ -110,8 +104,6 @@ TV Station
 ```
 
 That's **SSE**.
-
----
 
 <h2>Example</h2>
 
