@@ -125,22 +125,18 @@ The browser updates automatically.
 
 The client doesn't need to keep asking.
 
----
-
 <h2>Where is SSE Used?</h2>
 
 Whenever **only the server** needs to send updates.
 
 Examples:
 
-- 📰 Live News
-- 🏏 Live Sports Scores
-- 🌦️ Weather Updates
-- 📈 Stock Prices
-- 📊 System Monitoring Dashboard
-- 📄 Server Logs
-
----
+-  Live News
+-  Live Sports Scores
+-  Weather Updates
+-  Stock Prices
+-  System Monitoring Dashboard
+-  Server Logs
 
 <h2>Where Shouldn't You Use SSE?</h2>
 
