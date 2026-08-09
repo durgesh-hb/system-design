@@ -9,7 +9,7 @@ Before understanding REST API, first understand what an **API** is.
 Imagine you're using a food delivery app.
 
 You click:
-
+ 
 ```text
 Show Restaurants
 ```
