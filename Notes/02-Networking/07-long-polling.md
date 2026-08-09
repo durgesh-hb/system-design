@@ -285,7 +285,7 @@ Long Polling may only require:
      ▼
 1 Response
 ```
-
+  
 Less unnecessary traffic.
 
 <h2>Why Not Just Use WebSockets?</h2>
