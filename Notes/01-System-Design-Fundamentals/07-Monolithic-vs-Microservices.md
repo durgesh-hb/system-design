@@ -22,7 +22,7 @@ There are two common approaches:
 - Monolithic Architecture
 - Microservices Architecture
 <img src="/images/Monilithic-and-Microservice.png" alt="Monolithic Architecture Diagram" width="80%" height="400">
-
+ 
 <h2> -> 1. Monolithic Architecture</h2>
 
 > **Definition : A Monolithic Application is an application where all features are part of one single application.**
