@@ -6,7 +6,7 @@ The main difference is:
 
 - **TCP prioritizes reliability.**
 - **UDP prioritizes speed.**
-
+ 
 <h3>Why Do We Need TCP and UDP?</h3>
 
 Imagine two situations.
