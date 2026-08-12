@@ -1,5 +1,5 @@
 ## 1. Functional Requirement
-
+ 
 Functional requirement is **what the system should do**.
 
 It defines the **features or behaviour of the application**.
