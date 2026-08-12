@@ -1,5 +1,5 @@
 <h2>Availability</h2>
-
+ 
 Availability is one of the most important **Non-Functional Requirements** in System Design.
 
 It tells us whether a system is **operational and accessible whenever users need it.**

@@ -3,7 +3,7 @@
 Monolithic and Microservices are two common software architecture styles used to organize an application's code and services.
 
 <h2>Imagine You're Building an E-Commerce Website</h2>
-
+ 
 Your website has these features:
 
 - User Login
