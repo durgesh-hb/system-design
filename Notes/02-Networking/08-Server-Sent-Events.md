@@ -155,8 +155,6 @@ Use:
 
 ✅ **WebSockets**
 
----
-
 <h2>Advantages</h2>
 
 - ✅ Simpler than WebSockets
@@ -164,7 +162,6 @@ Use:
 - ✅ Automatic reconnection if the connection drops (supported by browsers)
 - ✅ Efficient for Server → Client updates
 
----
 
 <h2>Disadvantages</h2>
 
@@ -172,8 +169,6 @@ Use:
 - ❌ Not suitable for Chat Applications
 - ❌ Not suitable for Online Gaming
 - ❌ Client cannot send real-time messages over the same connection
-
----
 
 <h2>SSE vs Long Polling</h2>
 
@@ -190,8 +185,6 @@ New Request
 ```
 
 Every response requires another request.
-
----
 
 ### SSE
 
@@ -211,8 +204,6 @@ Connection Still Open
 
 No repeated requests after every update.
 
----
-
 <h2>SSE vs WebSocket</h2>
 
 | SSE | WebSocket |
@@ -221,8 +212,6 @@ No repeated requests after every update.
 | Uses HTTP | Uses WebSocket Protocol (after HTTP handshake) |
 | Simpler | More Powerful |
 | Great for Live Updates | Great for Chat & Gaming |
-
----
 
 <h2>System Design Perspective</h2>
 
@@ -236,9 +225,8 @@ Server → Users
 
 Best Choice:
 
-✅ **SSE**
+ **SSE**
 
----
 
 ### WhatsApp
 
@@ -250,7 +238,7 @@ Users ↔ Server
 
 Best Choice:
 
-✅ **WebSocket**
+**WebSocket**
 
 ---
 
@@ -266,7 +254,7 @@ Notify users when a new email arrives.
 
 Best Choice:
 
-✅ **SSE**
+ **SSE**
 
 ---
 
@@ -281,7 +269,6 @@ Best Choice:
 | Video Call | WebSocket |
 | Online Game | WebSocket |
 
----
 
 <h2>SSE vs Long Polling vs WebSocket</h2>
 
@@ -289,12 +276,11 @@ Best Choice:
 |---------|--------------|-----|-----------|
 | Communication | Client → Server | Server → Client | Two-Way |
 | Connection | Recreated after every response | One Long-Lived HTTP Connection | One Persistent Connection |
-| Uses HTTP | ✅ Yes | ✅ Yes | Initial HTTP Handshake, then WebSocket Protocol |
+| Uses HTTP |  Yes |  Yes | Initial HTTP Handshake, then WebSocket Protocol |
 | Real-Time | Better | Good | Best |
 | Network Overhead | Medium | Low | Lowest |
 | Best For | Legacy Systems | Live Updates | Chat & Gaming |
 
----
 
 <h2>Interview Questions</h2>
 
@@ -330,8 +316,6 @@ Examples:
 - Sports Scores
 - Weather Updates
 
----
-
 ### Q4. Difference between SSE and WebSocket?
 
 | SSE | WebSocket |
@@ -341,8 +325,6 @@ Examples:
 | Simpler | More Powerful |
 | Uses HTTP | Uses WebSocket Protocol |
 
----
-
 ### Q5. Difference between SSE and Long Polling?
 
 **Answer:**
@@ -350,8 +332,6 @@ Examples:
 Long Polling creates a **new HTTP request after every response**.
 
 SSE keeps **one HTTP connection open** and continuously sends updates.
-
----
 
 <h2>Memory Trick</h2>
 
@@ -361,13 +341,10 @@ The TV station continuously broadcasts news.
 
 You only watch.
 
----
 
 📞 **WebSocket = Phone Call**
 
 Both people can talk anytime.
-
----
 
 🚪 **Long Polling = Wait Outside the Door**
 
@@ -378,8 +355,6 @@ Wait.
 When there's news,
 
 the door opens.
-
----
 
 <h2>Key Takeaways</h2>
 
