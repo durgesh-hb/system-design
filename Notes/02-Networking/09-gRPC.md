@@ -4,8 +4,6 @@ gRPC is another way for software services to communicate with each other.
 
 It is especially useful for **microservice-to-microservice communication**.
 
----
-
 <h2>1. Why Do We Need gRPC?</h2>
 
 Imagine an e-commerce system with many microservices:
@@ -41,8 +39,6 @@ But when you have **thousands or millions of internal service-to-service calls**
 
 That's where **gRPC** comes in.
 
----
-
 <h2>2. What is gRPC?</h2>
 
 > **Definition : gRPC is a high-performance RPC framework that allows one service to directly call a function on another service over a network.**
@@ -60,8 +56,6 @@ Instead of thinking:
 You can think:
 
 > "I'm calling a function that happens to run on another server."
-
----
 
 <h2>3. Simple Example</h2>
 
@@ -97,8 +91,6 @@ User Data
 ```
 
 That's the core idea behind RPC.
-
----
 
 <h2>4. REST vs gRPC</h2>
 
