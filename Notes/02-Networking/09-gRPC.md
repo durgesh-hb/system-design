@@ -114,8 +114,6 @@ The client thinks in terms of:
 
 > **Calling a Remote Function**
 
----
-
 <h2>5. Protocol Buffers</h2>
 
 This is an important gRPC concept.
@@ -149,8 +147,6 @@ For example:
 
 This is extremely useful when different microservices use different languages.
 
----
-
 <h2>6. Why is gRPC Fast?</h2>
 
 One major reason is that gRPC commonly uses:
@@ -172,8 +168,6 @@ REST APIs commonly send JSON:
 JSON is human-readable but has more textual overhead.
 
 gRPC commonly sends **binary Protobuf data**, which is more compact and efficient for machine-to-machine communication.
-
----
 
 <h2>7. HTTP/2 and Multiplexing</h2>
 
@@ -197,8 +191,6 @@ This improves efficiency.
 
 You don't need to memorize the protocol details yet.
 
----
-
 <h2>8. Where is gRPC Used?</h2>
 
 gRPC is particularly useful for:
@@ -220,8 +212,6 @@ Service-to-service communication inside a company.
 ### High-Performance Systems
 
 Where there are huge numbers of internal requests and low latency matters.
-
----
 
 <h2>9. Where Would You Prefer REST?</h2>
 
@@ -245,8 +235,6 @@ API Gateway
 
 It's easy to inspect and works naturally with HTTP clients.
 
----
-
 <h2>10. REST vs gRPC</h2>
 
 | REST                         | gRPC                                 |
@@ -257,8 +245,6 @@ It's easy to inspect and works naturally with HTTP clients.
 | Very common for public APIs  | Common for internal services         |
 | Simple and widely understood | Strong contracts and code generation |
 | HTTP-based                   | Commonly uses HTTP/2                 |
-
----
 
 <h2>11. Important System Design Example</h2>
 
@@ -298,8 +284,6 @@ So you can have **REST and gRPC in the same system**.
 
 > You don't have to choose only REST or only gRPC for an entire application.
 
----
-
 <h2>12. gRPC Streaming</h2>
 
 gRPC also supports different communication patterns.
@@ -324,8 +308,6 @@ This makes gRPC useful for certain high-performance and streaming scenarios.
 
 You don't need to memorize all four RPC patterns yet.
 
----
-
 <h2>When Should You Choose gRPC?</h2>
 
 Think:
@@ -346,8 +328,6 @@ This isn't an absolute rule.
 
 REST can absolutely be used internally, and gRPC can be exposed externally when appropriate.
 
----
-
 <h2>API vs REST API vs gRPC</h2>
 
 | API                              | REST API                     | gRPC                             |
@@ -359,8 +339,6 @@ REST can absolutely be used internally, and gRPC can be exposed externally when 
 | Defines communication            | Uses resources and endpoints | Uses services and remote methods |
 
 > **Every REST API is an API, and gRPC is also a way to build APIs.**
-
----
 
 <h2>Memory Trick</h2>
 
@@ -380,66 +358,21 @@ GET /users/123
 GetUser(123)
 ```
 
----
-
-<h2>Interview Questions</h2>
-
-### Q1. What is gRPC?
-
-**Answer:**
-
-gRPC is a high-performance RPC framework that allows one service to call functions on another service over a network.
-
----
-
-### Q2. What does RPC stand for?
-
-**Answer:**
-
 RPC stands for **Remote Procedure Call**.
 
----
-
-### Q3. Why would you use gRPC instead of REST?
-
-**Answer:**
+### Why would you use gRPC instead of REST?
 
 For internal service-to-service communication where performance, efficient serialization, strong contracts, and code generation are valuable, gRPC can be preferable.
 
 REST is often simpler and more convenient for public APIs.
 
----
 
-### Q4. Why is gRPC efficient?
 
-**Answer:**
-
-gRPC commonly uses:
-
-* HTTP/2
-* Binary Protobuf serialization
-* Multiplexing
-* Efficient connection handling
-
----
-
-### Q5. What is Protocol Buffers?
+### What is Protocol Buffers?
 
 **Answer:**
 
 Protocol Buffers (Protobuf) is a serialization format used by gRPC to define message structures and service contracts.
-
----
-
-### Q6. Can REST and gRPC be used together?
-
-**Answer:**
-
-Yes.
-
-A system can use **REST for public APIs** and **gRPC for internal service-to-service communication**.
-
----
 
 <h2>Quick Revision</h2>
 
@@ -458,8 +391,6 @@ gRPC
  │
  └── Strong Contracts + Code Generation
 ```
-
----
 
 <h2>Key Takeaways</h2>
 
