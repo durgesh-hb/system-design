@@ -334,16 +334,6 @@ Reverse Proxy
    ↓
 Backend Server(s)
 ```
-
-### Main Purposes
-
-- 🔐 Security
-- 🔒 HTTPS/TLS Termination
-- ⚡ Caching
-- ⚖️ Load Balancing
-- 🫥 Hide Backend Servers
-- 🚦 Traffic Distribution
-
 ### Popular Tool
 
 **Nginx**
