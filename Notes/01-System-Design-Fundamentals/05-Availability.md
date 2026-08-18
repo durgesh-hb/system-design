@@ -10,10 +10,7 @@ Imagine you want to watch a movie on Netflix.
 
 You open the app.
 
-Instead of showing movies, it displays:
-
-
- ** 503 Service Unavailable **
+Instead of showing movies, it displays: ** 503 Service Unavailable **
 
 
 You try again.
@@ -26,7 +23,7 @@ Still down.
 
 Would you continue using Netflix?
 
-Probably not.
+Probably not, right so.
 
 Users expect services to be available whenever they need them.
 
@@ -34,7 +31,7 @@ That's why **Availability** is so important.
 
 <h2>Definition</h2>
 
-> **Definition : Availability is the ability of a system to remain operational and accessible to users whenever they need it.**
+>**Definition : Availability is the ability of a system to remain operational and accessible to users whenever they need it.**
 
 Simply:
 
