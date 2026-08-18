@@ -1,7 +1,6 @@
-
 ## What is Scalability?
 
-Scalability is the ability of a system to handle an increasing number of users, requests, or data by adding resources without significantly affecting performance.
+Scalability is the ability of a system to handle an increasing number of users, requests, or data by adding resources without significantly affecting performance is scalability.
 
 > Definition: A scalable system can continue to perform well even as the workload grows.
  
