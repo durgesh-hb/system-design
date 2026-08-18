@@ -155,8 +155,6 @@ Server
 
 The client uses the proxy to access external servers.
 
----
-
 ### Reverse Proxy
 
 Represents the **Server**.
@@ -226,8 +224,6 @@ For example, a company may route employee internet traffic through a proxy for:
 - Monitoring
 - Security
 
----
-
 ### Reverse Proxy
 
 Common in:
@@ -293,12 +289,12 @@ Server
 
 ### Main Purposes
 
-- 🔐 Security
-- 🚫 Access Control
-- 🛡️ Filtering
-- 🫥 IP Masking
-- ⚡ Caching
-- 📊 Traffic Monitoring
+- Security
+- Access Control
+- Filtering
+- IP Masking
+- Caching
+- Traffic Monitoring
 
 <h2>Memory Trick</h2>
 
