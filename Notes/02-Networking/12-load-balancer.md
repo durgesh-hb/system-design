@@ -7,7 +7,7 @@ It helps improve:
 - Scalability
 - Availability
 - Performance
-- Fault tolerance
+- Fault Tolerance
 
 <h2>Why Do We Need a Load Balancer?</h2>
 
@@ -145,8 +145,11 @@ Now suppose Server 2 crashes.
          Load Balancer
           /         \
          ▼           ▼
-       S1 ✅        S2 ❌
-                     S3 ✅
+       S1          S3
+       Healthy     Healthy
+
+       S2
+       Unhealthy
 ```
 
 The Load Balancer stops sending traffic to Server 2.
@@ -292,9 +295,9 @@ This is extremely important.
 Imagine:
 
 ```text
-S1 ✅
-S2 ❌
-S3 ✅
+S1 → Healthy
+S2 → Unhealthy
+S3 → Healthy
 ```
 
 How does the Load Balancer know S2 is broken?
@@ -318,7 +321,7 @@ Server is healthy.
 If it doesn't respond correctly:
 
 ```text
-Timeout ❌
+Timeout
 ```
 
 The Load Balancer marks it unhealthy.
@@ -329,9 +332,9 @@ Traffic
   ▼
 Load Balancer
   │
-  ├── S1 ✅
-  ├── S2 ❌ ← Remove
-  └── S3 ✅
+  ├── S1 → Healthy
+  ├── S2 → Unhealthy → Remove
+  └── S3 → Healthy
 ```
 
 This is called **automatic failover**.
@@ -535,9 +538,9 @@ You can add capacity as traffic grows.
 If one server fails:
 
 ```text
-S1 ❌
-S2 ✅
-S3 ✅
+S1 → Unhealthy
+S2 → Healthy
+S3 → Healthy
 ```
 
 Traffic continues through the healthy servers.
