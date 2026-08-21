@@ -397,43 +397,6 @@ Customers go to the nearest branch.
 
 That's basically the idea of a CDN.
 
-<h2>Interview Questions</h2>
-
-### Q1. What is a CDN?
-
-> A CDN is a distributed network of servers that delivers content from locations closer to users.
-
-### Q2. Why do we use a CDN?
-
-> To reduce latency, improve performance, and reduce load on origin servers.
-
-### Q3. What is an Edge Server?
-
-> An Edge Server is a CDN server located closer to users that can cache and serve content.
-
-### Q4. What happens during a CDN Cache Miss?
-
-> The CDN fetches the content from the origin, returns it to the user, and may cache it for future requests.
-
-### Q5. What is the difference between a CDN and a Load Balancer?
-
-> **CDN:** Gets content closer to users.
-
-> **Load Balancer:** Distributes traffic across backend servers.
-
-<h2>Quick Revision</h2>
-
-```text
-                    CDN
-                     │
-       ┌─────────────┼─────────────┐
-       ▼             ▼             ▼
-   India Edge    Europe Edge    USA Edge
-       │             │             │
-       ▼             ▼             ▼
-    Users         Users          Users
-```
-
 Remember:
 
 > **CDN → Move content closer to users**
@@ -454,4 +417,3 @@ Remember:
 - **CDN and Load Balancer solve different problems**
 - **CDN → Brings content closer to users**
 - **Load Balancer → Distributes requests across backend servers**
-- Not every request should be cached; personalized and frequently changing data requires careful caching decisions.
