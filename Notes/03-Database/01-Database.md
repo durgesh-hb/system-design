@@ -167,7 +167,7 @@ Depending on the access pattern, a NoSQL database may be a better fit.
 
 This is a common beginner mistake.
 
-❌ NoSQL does not mean:
+ NoSQL does not mean:
 
 "There is no SQL anywhere."
 
@@ -179,7 +179,7 @@ It refers to database systems that don't primarily follow the traditional relati
 
 11. Can a System Use Both?
 
-Absolutely. ⭐
+Absolutely. 
 
 A large system doesn't have to choose only one.
 
@@ -266,21 +266,21 @@ For example:
 
 Need complex relationships + transactions?
 
-➡️ SQL is often a good choice.
+SQL is often a good choice.
 
 Need flexible documents?
 
-➡️ Document NoSQL may fit.
+ Document NoSQL may fit.
 
 Need extremely fast key-value access?
 
-➡️ Redis or another key-value store may fit.
+ Redis or another key-value store may fit.
 
 Need massive distributed writes?
 
-➡️ A distributed NoSQL database may be appropriate.
+ A distributed NoSQL database may be appropriate.
 
-🧠 Memory Trick
+ Memory Trick
 
 Think:
 
@@ -297,7 +297,7 @@ Specific access patterns
 
 But remember: modern databases overlap, so these are tendencies, not absolute rules.
 
-🎯 Interview Question
+ Interview Question
 "How would you choose between SQL and NoSQL?"
 
 A strong answer:
@@ -306,7 +306,7 @@ A strong answer:
 
 That's exactly the kind of thinking System Design interviews want.
 
-📝 Quick Revision
+ Quick Revision
 Database
    │
    ├── SQL
