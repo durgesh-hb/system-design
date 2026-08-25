@@ -1,3 +1,35 @@
+# End-to-End Request Flow
+
+This is the **most important lesson of Module 2** because it connects everything we've learned in Networking and System Design.
+
+Imagine you open:
+
+```text
+https://example.com/products/123
+```
+
+and want to see product `123`.
+
+<h2>The Complete Journey</h2>
+
+At a high level:
+
+```text
+User
+ │
+
+
+
+
+
+
+
+
+
+
+
+
+
 ## End-to-End Request Flow
 
 This is the **most important lesson of Module 2** because it connects everything we've learned in Networking and System Design.
