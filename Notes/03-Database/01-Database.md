@@ -1,0 +1,1 @@
+A database is a system used to store, organize, and retrieve data.
