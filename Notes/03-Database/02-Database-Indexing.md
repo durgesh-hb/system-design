@@ -1,386 +1,509 @@
-## SQL vs NoSQL
+## Database Indexing
 
-Before learning **indexing, replication, sharding, etc.**, we need to understand **why different types of databases exist**.
+Database Indexing is a very important System Design concept.
 
-<h2>What is a Database?</h2>
+The main question we're answering is:
 
-> **Definition : A database is a system used to store, organize, and retrieve data.**
+> **How does a database find data quickly when a table has millions or billions of rows?**
 
-Example: An e-commerce application needs to store:
+<h2>The Problem</h2>
 
-```text
-Users
-Products
-Orders
-Payments
-Reviews
-```
-
-A database stores this information so the application can retrieve it when needed.
-
-<h2>Two Major Categories</h2>
-
-At a high level:
+Imagine we have a `users` table with **10 million users**.
 
 ```text
-                    Databases
-                       │
-             ┌─────────┴─────────┐
-             ▼                   ▼
-           SQL                 NoSQL
-       Relational          Non-Relational
+users
+
+id     name       email
+1      Rahul      ...
+2      Eren       ...
+3      John       ...
+...
+10,000,000
 ```
 
-<h2>SQL Database</h2>
+Now we run:
 
-> **Definition : SQL databases are relational databases that organize data into tables and relationships.**
+```sql
+SELECT * FROM users
+WHERE email = 'eren@gmail.com';
+```
+
+How does the database find that user?
+
+<h2>Without an Index</h2>
+
+Without an index, the database may need to check rows one by one:
+
+```text
+Row 1     No
+Row 2     No
+Row 3     No
+Row 4     No
+...
+Row 8,472,391   Yes
+```
+
+This is called a **full table scan**.
+
+For a huge table, this can be expensive.
+
+Conceptually:
+
+```text
+10 million rows
+      ↓
+Check many rows
+      ↓
+Find matching row
+```
+
+<h2>What is an Index?</h2>
+
+> **Definition : An index is an additional data structure that helps the database find rows faster without scanning the entire table.**
+
+Think of a **book**.
+
+Suppose you want to find "Database Indexing" in a 1,000-page book.
+
+Without an index:
+
+```text
+Page 1
+Page 2
+Page 3
+...
+Page 1000
+```
+
+You might have to search page by page.
+
+With the book's index:
+
+```text
+Database Indexing → Page 527
+```
+
+You can jump directly near the relevant page.
+
+A database index works on the same basic idea.
+
+<h2>Simple Database Example</h2>
+
+Without index:
+
+```text
+Users Table
+    ↓
+Scan rows
+    ↓
+Find email
+```
+
+With index:
+
+```text
+Email Index
+     ↓
+Find email
+     ↓
+Locate row
+     ↓
+Users Table
+```
+
+So:
+
+```text
+Query
+  ↓
+Index
+  ↓
+Row Location
+  ↓
+Actual Data
+```
+
+<h2>Example</h2>
+
+Suppose we create:
+
+```sql
+CREATE INDEX idx_users_email
+ON users(email);
+```
+
+Now:
+
+```sql
+SELECT *
+FROM users
+WHERE email = 'eren@gmail.com';
+```
+
+The database can use the index to locate the matching row much more efficiently.
+
+<h2>What Does the Index Actually Store?</h2>
+
+At a high level, think:
+
+```text
+Index
+
+Email                 → Row Location
+-------------------------------------
+a@gmail.com           → Row 10
+b@gmail.com           → Row 25
+eren@gmail.com        → Row 847
+john@gmail.com        → Row 1200
+```
+
+The database uses this structure to locate the relevant data.
+
+The exact implementation depends on the database and index type.
+
+<h2>B-Tree / B+ Tree</h2>
+
+You will often hear:
+
+> **"Database indexes use B-Trees or B+ Trees."**
+
+Don't worry about the implementation yet.
+
+The important idea is:
+
+> **They keep indexed values organized so the database can search efficiently instead of checking every row.**
+
+Conceptually:
+
+```text
+              Root
+             /    \
+           /        \
+         /            \
+      Values        Values
+      /   \          /   \
+    ...   ...      ...   ...
+```
+
+This allows the database to narrow down where the desired value is.
+
+<h2>Why Not Create an Index on Every Column?</h2>
+
+Very important.
+
+You might think:
+
+> "If indexes make queries faster, I'll index everything!"
+
+Bad idea.
+
+Indexes have costs.
+
+<h2>Indexes Consume Storage</h2>
+
+The database needs to store the index separately.
+
+```text
+Database
+│
+├── Table Data
+│
+└── Indexes
+```
+
+More indexes = more storage.
+
+<h2>Indexes Slow Down Writes</h2>
+
+Suppose you insert a new user:
+
+```sql
+INSERT INTO users ...
+```
+
+The database needs to:
+
+- Add the row to the table
+- Update every relevant index
+
+So:
+
+```text
+INSERT
+  ↓
+Table Update
+  ↓
+Index Update
+```
+
+More indexes mean more work during:
+
+- INSERT
+- UPDATE
+- DELETE
+
+So there is a trade-off:
+
+> **Indexes improve reads but add storage and write overhead.**
+
+<h2>The Main Trade-Off</h2>
+
+```text
+             Index
+            /     \
+           /       \
+       Faster      More
+        Reads      Write Cost
+                   Storage
+```
+
+This is a very important System Design concept.
+
+<h2>When Should We Create an Index?</h2>
+
+Usually when a column is frequently used for:
+
+- Searching
+- Filtering
+- Joining
+- Sorting
+
+For example:
+
+```sql
+WHERE email = ?
+```
+
+If your application frequently searches users by email, an index on `email` can be useful.
+
+<h2>Example: E-Commerce</h2>
+
+Suppose you frequently query:
+
+```sql
+SELECT *
+FROM orders
+WHERE user_id = 123;
+```
+
+An index on:
+
+```text
+user_id
+```
+
+can make those lookups much faster.
+
+<h2>Composite Index</h2>
+
+Sometimes queries use multiple columns.
 
 Example:
 
-<h3>Users</h3>
+```sql
+SELECT *
+FROM users
+WHERE city = 'Mysore'
+AND age = 22;
+```
 
-| ID | Name | Email |
-|----|------|-------|
-| 1 | Eren | eren@gmail.com |
-| 2 | Rahul | rahul@gmail.com |
-
-<h3>Orders</h3>
-
-| ID | User_ID | Product |
-|----|---------|---------|
-| 101 | 1 | Laptop |
-| 102 | 2 | Phone |
-
-The tables can be related.
+You could potentially use a **composite index** involving:
 
 ```text
-Users
-  │
-  │ user_id
-  ▼
-Orders
+(city, age)
 ```
 
-<h2>Examples of SQL Databases</h2>
+This is called a **composite index**.
 
-Common examples:
+<h2>Index Order Matters</h2>
 
-- MySQL
-- PostgreSQL
-- Oracle Database
-- Microsoft SQL Server
-
-You've already worked with **PostgreSQL**, so this should feel familiar.
-
-<h2>NoSQL Database</h2>
-
-> **Definition : NoSQL databases are non-relational databases that use different data models depending on the database.**
-
-Different NoSQL databases use different data models.
-
-For example, a document database might store:
-
-```json
-{
-  "id": 1,
-  "name": "Eren",
-  "email": "eren@gmail.com",
-  "orders": [
-    {
-      "product": "Laptop"
-    }
-  ]
-}
-```
-
-The structure is more flexible.
-
-<h2>Examples of NoSQL</h2>
-
-<h3>Document</h3>
-
-**MongoDB**
+For a composite index:
 
 ```text
-JSON-like documents
+(city, age)
 ```
 
-<h3>Key-Value</h3>
+the order of columns matters.
 
-**Redis**
+It can efficiently support queries that use the leading column(s), depending on the database's query planner and index rules.
+
+You don't need to memorize all the edge cases right now.
+
+Just remember:
+
+> **Composite index = index containing multiple columns, and column order matters.**
+
+<h2>Index vs Primary Key</h2>
+
+Most relational databases automatically create an index associated with a primary key.
+
+Example:
+
+```sql
+PRIMARY KEY (id)
+```
+
+The database can efficiently locate rows by `id`.
+
+But **not every indexed column is a primary key**.
+
+You can have:
 
 ```text
-key → value
+Primary Key:
+id
+
+Other Indexes:
+email
+username
+created_at
 ```
 
-<h3>Wide-Column</h3>
+<h2>System Design Example</h2>
 
-**Cassandra**
+Imagine Instagram has:
 
 ```text
-Large-scale distributed data
+1 Billion users
 ```
 
-<h3>Graph</h3>
-
-**Neo4j**
+And you frequently search:
 
 ```text
-Nodes + Relationships
+username = "eren"
 ```
 
-Don't worry about these yet. We'll study them later.
-
-<h2>SQL vs NoSQL</h2>
-
-| SQL | NoSQL |
-|-----|-------|
-| Relational | Non-relational |
-| Tables | Various data models |
-| Fixed/structured schema traditionally | More flexible schema |
-| Strong relationships | Often optimized for specific access patterns |
-| SQL queries | Database-specific APIs/query models |
-| Strong transactional support | Varies by database |
-| Great for structured data | Useful for flexible or massive-scale workloads |
-
-<h2>When Should You Use SQL?</h2>
-
-Suppose you're building a **banking system**.
-
-You have:
+Without an index:
 
 ```text
-Account
-Transaction
-Customer
-Payment
+1 Billion rows
+       ↓
+Potentially huge scan
 ```
 
-These entities have important relationships.
-
-You need strong transactional guarantees.
-
-SQL is usually a strong choice.
+With an index:
 
 ```text
-Customer
-   │
-   ▼
-Account
-   │
-   ▼
-Transaction
+username index
+       ↓
+Find "eren"
+       ↓
+User row
 ```
 
-<h2>When Should You Use NoSQL?</h2>
+This is one of the basic techniques that makes large databases practical.
 
-Imagine you're building a system that stores **billions of user activity events**.
+<h2>Important Warning: Index Doesn't Guarantee Fast Queries</h2>
 
-For example:
+This is an important nuance.
 
-```text
-User viewed video
-User liked video
-User searched
-User clicked recommendation
-```
+Creating an index doesn't automatically mean the database will use it.
 
-You may need:
+The database's **query planner/optimizer** decides whether an index is beneficial.
 
-- Huge scale
-- High write throughput
-- Flexible data
-- Horizontal scaling
+For example, if a query returns a very large percentage of the table, scanning the table may sometimes be cheaper than using the index.
 
-Depending on the access pattern, a NoSQL database may be a better fit.
+So:
 
-<h2>Important: NoSQL Does NOT Mean "No SQL"</h2>
-
-This is a common beginner mistake.
-
-NoSQL does not mean:
-
-> "There is no SQL anywhere."
-
-It generally means:
-
-> **Not Only SQL**
-
-It refers to database systems that don't primarily follow the traditional relational model.
-
-<h2>Can a System Use Both?</h2>
-
-Absolutely.
-
-A large system doesn't have to choose only one.
-
-For example:
-
-```text
-                    Application
-                         │
-              ┌──────────┴──────────┐
-              ▼                     ▼
-         PostgreSQL              MongoDB
-         Users/Orders          Flexible Data
-```
-
-And you might also use:
-
-```text
-Redis
-  ↓
-Caching
-```
-
-Different databases can solve different problems.
-
-<h2>Real System Example</h2>
-
-Imagine an e-commerce system.
-
-<h3>PostgreSQL</h3>
-
-Store:
-
-```text
-Users
-Orders
-Payments
-Products
-```
-
-Because relationships and transactions matter.
-
-<h3>Redis</h3>
-
-Store:
-
-```text
-Sessions
-Popular Products
-Frequently accessed data
-```
-
-Because fast access matters.
-
-<h3>Search Engine</h3>
-
-Store/search:
-
-```text
-Product Search Index
-```
-
-Because search is its specialty.
-
-So a real system might look like:
-
-```text
-                Application
-                     │
-        ┌────────────┼────────────┐
-        ▼            ▼            ▼
-   PostgreSQL      Redis    Search Engine
-        │
-        ▼
-      Orders
-```
-
-This is called **polyglot persistence** — using different data stores for different needs.
-
-<h2>The Real Question in System Design</h2>
-
-Don't think:
-
-> "SQL is better."
-
-or:
-
-> "NoSQL is better."
-
-That's the wrong mindset.
-
-Instead ask:
-
-> **What are the requirements and access patterns?**
-
-<h3>Need Complex Relationships + Transactions?</h3>
-
-➡️ SQL is often a good choice.
-
-<h3>Need Flexible Documents?</h3>
-
-➡️ Document NoSQL may fit.
-
-<h3>Need Extremely Fast Key-Value Access?</h3>
-
-➡️ Redis or another key-value store may fit.
-
-<h3>Need Massive Distributed Writes?</h3>
-
-➡️ A distributed NoSQL database may be appropriate.
+> **Index = tool for improving query performance, not a guarantee.**
 
 <h2>Memory Trick</h2>
 
-<h3>SQL</h3>
+Think about a textbook.
+
+<h3>No Index</h3>
 
 ```text
-Structured
-Tables
-Relationships
-Transactions
+Search every page
 ```
 
-<h3>NoSQL</h3>
+<h3>Index</h3>
 
 ```text
-Flexible
-Different data models
-Horizontal scale
-Specific access patterns
+Topic
+  ↓
+Page number
+  ↓
+Go directly there
 ```
 
-But remember: **modern databases overlap**, so these are tendencies, not absolute rules.
+That's essentially what a database index does.
 
-<h2>Interview Question</h2>
+<h2>Interview Questions</h2>
 
-### "How would you choose between SQL and NoSQL?"
+### Q1. What is a database index?
 
-A strong answer:
+> An additional data structure that helps the database find rows efficiently without scanning the entire table.
 
-> "I'd look at the data model, relationship complexity, transaction requirements, consistency needs, scale, read/write patterns, and operational requirements. I wouldn't choose SQL or NoSQL simply based on which is more popular."
+### Q2. Why do indexes improve read performance?
 
-That's exactly the kind of thinking System Design interviews want.
+> They allow the database to locate matching records more efficiently instead of scanning every row.
+
+### Q3. What's the downside of indexes?
+
+> They consume storage and add overhead to writes because indexes must be maintained.
+
+### Q4. Should we index every column?
+
+> No. Too many indexes increase storage and write overhead and may provide little benefit.
+
+### Q5. What is a composite index?
+
+> An index built on multiple columns.
 
 <h2>Quick Revision</h2>
 
 ```text
-Database
-   │
-   ├── SQL
-   │    ├── Relational
-   │    ├── Tables
-   │    ├── Relationships
-   │    └── Transactions
-   │
-   └── NoSQL
-        ├── Document
-        ├── Key-Value
-        ├── Wide-Column
-        └── Graph
+Query
+  │
+  ▼
+Index
+  │
+  ▼
+Find Row
+  │
+  ▼
+Return Data
 ```
 
-<h2>Key Takeaways</h2>
+<h3>Without Index</h3>
 
-- **SQL → Relational databases**
-- **NoSQL → Non-relational databases**
-- SQL organizes data primarily using **tables and relationships**.
-- NoSQL databases use different models such as **Document, Key-Value, Wide-Column, and Graph**.
-- SQL is often a strong choice when **relationships and transactions** are important.
-- NoSQL can be useful for **flexible data models and large-scale distributed workloads**.
-- **NoSQL does not mean "No SQL"; it generally means "Not Only SQL".**
-- A system can use **both SQL and NoSQL databases**.
-- Using different databases for different requirements is called **Polyglot Persistence**.
-- The correct question is not **"SQL or NoSQL?"**
-- The correct question is **"Which database fits the system's requirements and access patterns?"**
+```text
+Query
+  ↓
+Scan many/all rows
+  ↓
+Find Data
+```
+
+<h3>With Index</h3>
+
+```text
+Query
+  ↓
+Index
+  ↓
+Locate Data
+```
+
+<h3>Trade-off</h3>
+
+```text
+Indexes
+  │
+  ├── Faster Reads
+  ├── More Storage
+  └── Slower Writes
+```
+
+<h2>What You Need to Remember</h2>
+
+If an interviewer asks:
+
+> **"How would you improve a slow database query?"**
+
+A strong answer:
+
+> "First I'd inspect the query and execution plan. If the query frequently filters, joins, or sorts on certain columns, an appropriate index may improve performance. But I'd also consider the storage and write overhead of adding that index."
+
+That's much stronger than simply saying **"add an index."**
