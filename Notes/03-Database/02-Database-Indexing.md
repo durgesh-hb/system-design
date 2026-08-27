@@ -429,27 +429,6 @@ Go directly there
 
 That's essentially what a database index does.
 
-<h2>Interview Questions</h2>
-
-### Q1. What is a database index?
-
-> An additional data structure that helps the database find rows efficiently without scanning the entire table.
-
-### Q2. Why do indexes improve read performance?
-
-> They allow the database to locate matching records more efficiently instead of scanning every row.
-
-### Q3. What's the downside of indexes?
-
-> They consume storage and add overhead to writes because indexes must be maintained.
-
-### Q4. Should we index every column?
-
-> No. Too many indexes increase storage and write overhead and may provide little benefit.
-
-### Q5. What is a composite index?
-
-> An index built on multiple columns.
 
 <h2>Quick Revision</h2>
 
