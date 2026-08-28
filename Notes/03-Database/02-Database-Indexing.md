@@ -8,7 +8,7 @@ The main question we're answering is:
 
 <h2>The Problem</h2>
 
-Imagine we have a `users` table with **10 million users**.
+Imagine we have a USER table with **10 million users**.
 
 ```text
 users
