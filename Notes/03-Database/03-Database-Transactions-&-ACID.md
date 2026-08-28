@@ -1,1 +1,1 @@
-A transaction is a group of database operations treated as one logical unit of work.
+
