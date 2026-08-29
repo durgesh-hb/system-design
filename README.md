@@ -6,6 +6,8 @@ This repository contains my personal notes, diagrams, references, and learning m
 
 The purpose of this repository is to document my learning journey, organize concepts in a structured way, and create a knowledge base for future revision and interview preparation.
 
+Here i am documenting everything i am learning
+
 ## Repository Structure
 
 ```text
