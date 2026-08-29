@@ -19,9 +19,7 @@ Question:
 
 > **Where did all this data come from?**
 
-Is it stored on your phone?
-
-No.
+Is it stored on your phone? -> No.
 
 It comes from Instagram's servers.
 
