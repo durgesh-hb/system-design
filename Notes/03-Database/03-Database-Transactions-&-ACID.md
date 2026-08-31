@@ -432,21 +432,6 @@ Committed data stays.
 
 > **ACID = Safe Transaction**
 
-<h2>Interview Questions</h2>
-
-### Q3. What is Consistency?
-
-> A successful transaction preserves the database's defined rules and constraints.
-
-### Q4. What is Isolation?
-
-> Concurrent transactions are controlled so they don't improperly interfere with each other's intermediate work.
-
-### Q5. What is Durability?
-
-> Committed changes survive failures.
-
-### Q6. What is the difference between COMMIT and ROLLBACK?
 
 > **COMMIT** makes successful transaction changes permanent.
 
