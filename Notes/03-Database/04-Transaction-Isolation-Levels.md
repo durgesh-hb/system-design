@@ -150,6 +150,8 @@ That's called:
 
 > **Non-repeatable read**
 
+The Problem: Transaction A gets two different answers for the same query inside a single task. This can cause calculation errors in checkout or billing systems
+
 <h2>Repeatable Read</h2>
 
 This level provides stronger guarantees.
@@ -160,7 +162,7 @@ If Transaction B reads a row:
 Balance = ₹10,000
 ```
 
-another transaction changing that row shouldn't cause B's repeated read of that row to unexpectedly return a different value within the transaction, subject to the database's specific implementation.
+Repeatable read is a transaction isolation level. It guarantees that any row read during a transaction will stay exactly the same every time it is read again until the transaction ends.
 
 So conceptually:
 
