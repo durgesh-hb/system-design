@@ -434,14 +434,6 @@ Committed data stays.
 
 <h2>Interview Questions</h2>
 
-### Q1. What is a transaction?
-
-> A group of database operations treated as one logical unit.
-
-### Q2. What is Atomicity?
-
-> All required operations succeed or none take effect.
-
 ### Q3. What is Consistency?
 
 > A successful transaction preserves the database's defined rules and constraints.
