@@ -1,4 +1,4 @@
-## Database Scaling ⭐⭐⭐⭐⭐
+## Database Scaling
 
 <h2>The Problem</h2>
 
@@ -110,7 +110,7 @@ Instead of:
 
 ```text
        Database
-          🔥
+          
 ```
 
 we add multiple machines:
@@ -213,7 +213,7 @@ Most operations are reads.
 
 If most traffic is reads, we can use **Read Replicas** instead of immediately sharding the database.
 
-<h2>Read Replicas ⭐⭐⭐⭐⭐</h2>
+<h2>Read Replicas</h2>
 
 A common architecture is:
 
