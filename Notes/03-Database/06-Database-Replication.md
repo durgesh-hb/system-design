@@ -1,4 +1,4 @@
-Database Replication ⭐⭐⭐⭐⭐
+Database Replication
 
 We just learned that read replicas help scale reads. Now let's understand how the data actually gets copied from one database to another.
 
