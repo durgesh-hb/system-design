@@ -480,9 +480,9 @@ The important principle is:
 > **Make one machine stronger.**
 
 ```text
-💪 DB
+ DB
   ↓
-💪💪💪 Bigger DB
+Bigger DB
 ```
 
 <h3>Horizontal Scaling</h3>
