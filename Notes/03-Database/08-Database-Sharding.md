@@ -1,4 +1,4 @@
-## Database Sharding ⭐⭐⭐⭐⭐
+## Database Sharding
 
 <h2>The Problem</h2>
 
@@ -45,8 +45,8 @@ For example:
           ▼          ▼          ▼
       ┌───────┐  ┌───────┐  ┌───────┐
       │Shard 1│  │Shard 2│  │Shard 3│
-      │Users   │  │Users  │  │Users  │
-      │1-1M    │  │1M-2M  │  │2M-3M  │
+      │Users  │  │Users  │  │Users  │
+      │1-1M   │  │1M-2M  │  │2M-3M  │
       └───────┘  └───────┘  └───────┘
 ```
 
