@@ -1,120 +1,152 @@
-Database Replication
+## Database Replication
 
-We just learned that read replicas help scale reads. Now let's understand how the data actually gets copied from one database to another.
+<h2>What is Database Replication?</h2>
 
-1. What is Database Replication?
-
-Replication means keeping copies of the same database data on multiple database servers.
+Database replication means **keeping copies of the same database data on multiple database servers**.
 
 Instead of:
 
+```text
 Application
     ↓
    DB
+```
 
 we have:
 
+```text
               Application
                    ↓
               Primary DB
               /       \
              ↓         ↓
         Replica 1   Replica 2
+```
 
-The replicas contain copies of the primary's data.
+The replicas contain copies of the Primary's data.
 
-2. Why Do We Need Replication?
+<h2>Why Do We Need Replication?</h2>
 
 There are three major reasons:
 
-① Scale Reads
-Primary
+<h3>Scale Reads</h3>
+
+The Primary handles writes while replicas handle reads.
+
+```text
+             Primary
+                ↓
+              Writes
+
+Replica 1 ─────→ Reads
+Replica 2 ─────→ Reads
+```
+
+Instead of one database handling everything, read traffic can be distributed across replicas.
+
+<h3>High Availability</h3>
+
+If the Primary fails:
+
+```text
+Primary -- fails
    ↓
-Writes
+Replica 1 -- working
+```
 
-Replica 1 ──→ Reads
-Replica 2 ──→ Reads
+A replica can potentially be promoted to become the new Primary.
 
-Instead of one database handling everything, reads can be distributed.
+This helps keep the application available.
 
-② High Availability
+<h3>Disaster Recovery</h3>
 
-If the primary fails:
+Having copies of data on separate database servers can help recover from failures.
 
-Primary ❌
-   ↓
-Replica 1
+Replication provides **redundancy**, because the data exists in multiple places.
 
-A replica can potentially be promoted to become the new primary.
+<h2>Primary and Replicas</h2>
 
-③ Disaster Recovery
+You'll often hear these terms:
 
-Having copies of data on separate machines can help recover from failures.
-
-3. Primary and Replicas
-
-You'll often hear:
-
+```text
 Primary / Leader
 Replica / Follower
+```
 
 Basic model:
 
+```text
               PRIMARY
                  │
           Replication
           /          \
          ▼            ▼
      REPLICA 1    REPLICA 2
+```
 
 Typically:
 
+```text
 Write → Primary
 Read  → Replica
+```
 
-But this isn't an absolute rule. Some databases and architectures support more complex write patterns.
+But this is not an absolute rule.
 
-4. Example
+Some databases and architectures support more complex write patterns.
 
-Suppose:
+<h2>Example</h2>
 
+Suppose we have:
+
+```text
 Users
 
-contains:
-
 id | name
+---------
 1  | Eren
 2  | Rahul
+```
 
-Application adds:
+The application adds:
 
+```text
 3 | John
+```
 
-The primary receives the write:
+The Primary receives the write:
 
+```text
 Primary
    ↓
 John added
+```
 
 The change is then replicated:
 
+```text
 Primary
    │
    ├──────────→ Replica 1
    │
    └──────────→ Replica 2
+```
 
 Eventually all copies contain:
 
+```text
 1 | Eren
 2 | Rahul
 3 | John
-5. Asynchronous Replication ⭐⭐⭐⭐⭐
+```
 
-This is very common.
+<h2>Asynchronous Replication</h2>
 
-The primary accepts the write without waiting for every replica to confirm it.
+Asynchronous replication is very common.
 
+The Primary accepts the write **without waiting for every replica to confirm it**.
+
+```text
 Application
      │
      ▼
@@ -122,77 +154,103 @@ Application
      │
      ├────→ Replica 1
      └────→ Replica 2
+```
 
-The application can receive success after the primary commits.
+The application can receive success after the Primary commits the write.
 
 The replicas catch up afterward.
 
-Advantage
+<h3>Advantage</h3>
 
 ⚡ Lower write latency
 
-Problem
+The Primary doesn't need to wait for replicas before responding.
 
-There can be replication lag.
+<h3>Problem</h3>
 
-6. Replication Lag
+There can be **replication lag**.
 
-Suppose the primary has:
+The replicas may temporarily contain older data.
 
+<h2>Replication Lag</h2>
+
+Suppose the Primary has:
+
+```text
 Balance = ₹5,000
+```
 
-User deposits ₹1,000.
+The user deposits ₹1,000.
 
-Primary:
+Primary becomes:
 
+```text
 ₹6,000
+```
 
 But Replica 1 hasn't received the update yet:
 
+```text
 Replica 1
 ₹5,000
+```
 
-So:
+So temporarily:
 
+```text
 Write
- ↓
+  ↓
 Primary → ₹6,000
- ↓
+  ↓
 Replica → ₹5,000
+```
 
-For a short period, they disagree.
+For a short period, the databases disagree.
 
-That's replication lag.
+This is called:
 
-7. The Read-After-Write Problem
+> **Replication Lag**
 
-This creates an important System Design problem.
+<h2>Read-After-Write Problem</h2>
 
-User does:
+Replication lag creates an important System Design problem.
 
-1. Update profile
-2. Immediately view profile
+Suppose a user:
+
+```text
+1. Updates profile
+2. Immediately views profile
+```
 
 The update goes to:
 
+```text
 Primary
+```
 
 Then the read goes to:
 
+```text
 Replica
+```
 
-But the replica hasn't caught up.
+But the replica hasn't caught up yet.
 
-User might see:
+The user might see:
 
-Old profile ❌
+```text
+Old Profile 
+```
 
 even though the write succeeded.
 
-8. One Solution
+This is called a **Read-After-Write Consistency Problem**.
 
-For critical reads immediately after a write, route the read to the primary:
+<h2>Handling Read-After-Write</h2>
 
+For critical reads immediately after a write, we can route the read to the Primary.
+
+```text
 Write
   ↓
 Primary
@@ -200,19 +258,21 @@ Primary
 Immediate Read
   ↓
 Primary
+```
 
 Later, normal reads can go to replicas.
 
-Another approach is to use a consistency mechanism that ensures the chosen replica has caught up sufficiently.
+Another approach is to use a consistency mechanism that ensures the selected replica has caught up sufficiently.
 
-The exact solution depends on the database and application.
+The exact solution depends on the database and application requirements.
 
-9. Synchronous Replication
+<h2>Synchronous Replication</h2>
 
-Now let's look at the opposite approach.
+Synchronous replication takes the opposite approach.
 
-The primary waits for one or more replicas to acknowledge the write before confirming success.
+The Primary waits for one or more required replicas to acknowledge the write before confirming success.
 
+```text
 Application
      ↓
  Primary
@@ -225,198 +285,306 @@ Application
 Primary
      ↓
 Success
-Advantage
+```
 
-Stronger durability/consistency guarantees.
+<h3>Advantage</h3>
 
-Disadvantage
+Provides **stronger durability and consistency guarantees**.
 
-More coordination can mean:
+<h3>Disadvantages</h3>
 
-Higher write latency
-Reduced availability if required replicas are unreachable
-10. Async vs Sync
-Asynchronous	Synchronous
-Primary doesn't wait for replicas	Primary waits for required replica acknowledgements
-Lower write latency	Higher write latency
-Replication lag possible	Stronger synchronization
-Good performance	Stronger guarantees
-Replica may temporarily be behind	Less stale data, depending on configuration
-11. What Happens if Primary Dies?
+More coordination can result in:
+
+- Higher write latency
+- Reduced availability if required replicas are unreachable
+- More coordination between database servers
+
+<h2>Asynchronous vs Synchronous Replication</h2>
+
+| Asynchronous | Synchronous |
+|---|---|
+| Primary doesn't wait for replicas | Primary waits for required replica acknowledgements |
+| Lower write latency | Higher write latency |
+| Replication lag is possible | Stronger synchronization |
+| Better performance | Stronger guarantees |
+| Replica may temporarily be behind | Less stale data, depending on configuration |
+
+<h2>What Happens if the Primary Dies?</h2>
 
 Imagine:
 
+```text
 Primary ❌
    │
    ├── Replica 1 ✅
    └── Replica 2 ✅
+```
 
-We need a new primary.
+We need a new Primary.
 
-This is called:
+This process is called:
 
-Failover
+> **Failover**
 
-One replica can be promoted:
+One of the replicas can potentially be promoted:
 
 Before:
 
+```text
 Primary ❌
 Replica 1
 Replica 2
-
+```
 
 After:
 
+```text
 New Primary
-Replica 2
+    │
+    └── Replica 2
+```
 
-Applications then need to connect to the new primary.
+Applications then need to connect to the new Primary.
 
-12. But Failover Isn't Magic
+<h2>Failover Isn't Magic</h2>
 
 Suppose:
 
+```text
 Primary
    │
    └── Latest transaction
+```
 
-The transaction hasn't reached Replica 1 yet.
+The latest transaction hasn't reached Replica 1 yet.
 
-Then primary crashes.
+Then the Primary crashes.
 
-Replica 1 becomes primary.
+If Replica 1 becomes the new Primary:
+
+```text
+Primary ❌
+   ↓
+Replica 1 → New Primary
+```
 
 That latest transaction may be missing.
 
 This is one reason replication configuration and consistency guarantees matter.
 
-13. Replication + Load Balancing
+Failover can involve trade-offs between:
 
-Now combine what we've learned:
+- Availability
+- Consistency
+- Data loss
+- Recovery time
 
+<h2>Replication + Load Balancing</h2>
+
+We can combine replication with a read-routing layer:
+
+```text
                  Application
                  /          \
              Writes          Reads
                 ↓              ↓
-             Primary      Read Router/LB
+             Primary      Read Router / LB
                             /       \
                            ↓         ↓
                        Replica 1  Replica 2
+```
 
-The read-routing layer distributes reads across replicas.
+The read-routing layer distributes read requests across replicas.
 
-14. Replication vs Sharding
+<h2>Replication vs Sharding</h2>
 
-Very important distinction.
+This distinction is extremely important.
 
-Replication
+<h3>Replication</h3>
 
-Copy the same data to multiple servers.
+Replication **copies the same data** to multiple servers.
 
-DB
-├── Copy
-├── Copy
-└── Copy
-Sharding
+```text
+        Database
+        /   |   \
+       ↓    ↓    ↓
+     Copy  Copy  Copy
+```
 
-Split the data across multiple servers.
+Each replica contains the same dataset, assuming it has caught up.
 
+<h3>Sharding</h3>
+
+Sharding **splits the data** across multiple servers.
+
+```text
 Shard 1 → Users 1–1M
 Shard 2 → Users 1M–2M
 Shard 3 → Users 2M–3M
+```
 
-We'll study sharding later.
+Each shard contains only a portion of the total data.
 
-15. Replication Doesn't Automatically Increase Write Capacity
+<h3>Simple Difference</h3>
+
+```text
+Replication
+    ↓
+Copy the same data
+
+Sharding
+    ↓
+Split the data
+```
+
+<h2>Replication Doesn't Automatically Increase Write Capacity</h2>
 
 This is a common misconception.
 
 Suppose:
 
-Primary
-   ↓
-Replica 1
-Replica 2
+```text
+        Primary
+        /     \
+       ↓       ↓
+   Replica 1  Replica 2
+```
 
-If all writes still go to the primary:
+If all writes still go to the Primary:
 
+```text
 10,000 writes/sec
-       ↓
-Primary
+        ↓
+     Primary
+```
 
-The primary remains the write bottleneck.
+The Primary remains the **write bottleneck**.
 
 Replication mainly helps with:
 
-Read scaling
-Availability
-Redundancy
+- Read scaling
+- High availability
+- Redundancy
+- Disaster recovery
 
-To scale writes across machines, we may need techniques such as sharding/partitioning or other architectures.
+To scale writes across machines, we may need techniques such as:
 
-🧠 Memory Trick
+- Sharding
+- Partitioning
+- Other distributed database architectures
 
-Think of a teacher writing notes.
 
-Teacher
-   ↓
-Master Copy
-   ↓
-Photocopies
+<h2>Interview Questions</h2>
 
-Replication = making copies.
-
-Sharding = splitting the book into different sections and giving each section to different machines.
-
-🎯 Interview Questions
-Q1. What is database replication?
+<h3>What is database replication?</h3>
 
 Maintaining copies of database data on multiple servers.
 
-Q2. Why use replication?
+<h3>Why use replication?</h3>
 
-For read scaling, high availability, redundancy, and disaster recovery.
+For:
 
-Q3. What is replication lag?
+- Read scaling
+- High availability
+- Redundancy
+- Disaster recovery
 
-The delay between a change being committed on the primary and appearing on a replica.
+<h3>What is replication lag?</h3>
 
-Q4. Synchronous vs asynchronous replication?
+The delay between a change being committed on the Primary and appearing on a replica.
 
-Synchronous replication waits for required replica acknowledgements before completing the write; asynchronous replication allows the primary to proceed without waiting.
+<h3>What is synchronous replication?</h3>
 
-Q5. What happens when the primary fails?
+Synchronous replication waits for required replica acknowledgements before completing the write.
 
-A replica can potentially be promoted to a new primary through a failover process.
+<h3>What is asynchronous replication?</h3>
 
-Q6. Does replication solve write scaling?
+Asynchronous replication allows the Primary to complete the write without waiting for replicas to acknowledge it.
 
-Not by itself. If writes still go to one primary, that primary remains the write bottleneck.
+<h3>What happens when the Primary fails?</h3>
 
-📝 Quick Revision
-                PRIMARY
-                   │
-          ┌────────┴────────┐
-          ▼                 ▼
-      REPLICA 1         REPLICA 2
-          │                 │
-        READ              READ
-Replication:
-Same data
-   ↓
-Multiple servers
-Async:
-Primary → Success
+A replica can potentially be promoted to become the new Primary through a **failover** process.
+
+<h3>Does replication solve write scaling?</h3>
+
+Not by itself.
+
+If writes still go to one Primary, that Primary remains the write bottleneck.
+
+<h3>Replication vs Sharding?</h3>
+
+**Replication** copies the same data across multiple servers.
+
+**Sharding** splits the data across multiple servers.
+
+<h2>Quick Revision</h2>
+
+```text
+                 PRIMARY
+                    │
+           ┌────────┴────────┐
+           ▼                 ▼
+       REPLICA 1         REPLICA 2
+           │                 │
+         READ              READ
+```
+
+<h3>Replication</h3>
+
+```text
+Same Data
     ↓
-Replicas catch up
-Sync:
+Multiple Servers
+```
+
+<h3>Async Replication</h3>
+
+```text
 Primary
    ↓
-Required replicas ACK
+Success
+   ↓
+Replicas Catch Up
+```
+
+<h3>Sync Replication</h3>
+
+```text
+Primary
+   ↓
+Required Replicas ACK
    ↓
 Success
-Main problem:
+```
+
+<h3>Main Problem</h3>
+
+```text
 Replication Lag
-Main benefit:
-Read Scaling + High Availability
+       ↓
+Stale Reads
+```
+
+<h3>Main Benefits</h3>
+
+```text
+Read Scaling
+     +
+High Availability
+     +
+Redundancy
+     +
+Disaster Recovery
+```
+
+<h3>Most Important Difference</h3>
+
+```text
+Replication
+    ↓
+COPY data
+
+Sharding
+    ↓
+SPLIT data
+```
