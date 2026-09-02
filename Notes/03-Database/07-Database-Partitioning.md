@@ -220,7 +220,7 @@ Database
 
 > **Partitioning = Split**
 
-<h2>Partitioning vs Sharding ⭐⭐⭐⭐⭐</h2>
+<h2>Partitioning vs Sharding </h2>
 
 These concepts are closely related, and terminology can vary between database technologies.
 
