@@ -377,7 +377,7 @@ The overloaded partition can become a bottleneck.
 
 <h2>Hot Partition</h2>
 
-A partition becomes a **hot partition** when it receives disproportionately high traffic or contains a disproportionately large amount of data.
+A partition becomes a **hot partition** when it receives high traffic or contains a disproportionately large amount of data.
 
 For example:
 
