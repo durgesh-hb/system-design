@@ -450,34 +450,6 @@ Flexible + Distributed + Specialized Models
 
 The correct choice depends on the system requirements.
 
-<h2>Memory Trick</h2>
-
-Remember the four major NoSQL types:
-
-```text
-Document
-    ↓
-JSON-like Data
-```
-
-```text
-Key-Value
-    ↓
-Key → Value
-```
-
-```text
-Wide-Column
-    ↓
-Massive Distributed Data
-```
-
-```text
-Graph
-    ↓
-Relationships
-```
-
 <h3>Simple Selection Rule</h3>
 
 ```text
@@ -501,26 +473,6 @@ Relationships
     Graph DB
 ```
 
-<h2>Quick Revision</h2>
-
-```text
-                 NoSQL
-                   │
-       ┌───────────┼───────────┐
-       │           │           │
-       ▼           ▼           ▼
-   Document    Key-Value   Wide-Column
-       │           │           │
-   Documents     Cache      Massive Scale
-   Profiles      Sessions   High Throughput
-   Catalogs      Carts      Distributed Data
-       │
-       └─────────────────────────────┐
-                                     ▼
-                                   Graph
-                                     │
-                               Relationships
-```
 
 <h3>Core Concepts</h3>
 
@@ -536,27 +488,4 @@ Wide-Column
 
 Graph
 → Nodes + Relationships
-```
-
-<h3>Final Memory Trick</h3>
-
-```text
-Document     → JSON-like data
-Key-Value    → key → value
-Wide-Column  → massive distributed data
-Graph        → relationships
-```
-
-And:
-
-```text
-SQL vs NoSQL
-      ↓
-Choose based on
-      ↓
-Data Model
-Access Pattern
-Scale
-Consistency
-Availability
 ```
