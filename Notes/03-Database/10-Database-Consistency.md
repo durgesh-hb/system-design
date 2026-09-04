@@ -1,4 +1,4 @@
-## Database Consistency ⭐⭐⭐⭐⭐
+## Database Consistency 
 
 Suppose we have a Primary database and multiple replicas:
 
@@ -51,7 +51,7 @@ Balance = ₹500
 Immediately:
 
 ```text
-READ → ₹500 ✅
+READ → ₹500 
 ```
 
 The system should not return the old value after the write has successfully completed, assuming the read is made under the same consistency guarantee.
@@ -220,7 +220,7 @@ name = Durgesh
 The user sees:
 
 ```text
-Durgesh ❌
+Durgesh - wrong
 ```
 
 even though they just changed the profile.
