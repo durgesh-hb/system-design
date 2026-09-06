@@ -1,317 +1,583 @@
-
-This is one of those System Design topics that sounds complicated but is actually pretty simple once you understand the problem.
-
-CAP Theorem
+## CAP Theorem ⭐⭐⭐⭐⭐
 
 CAP stands for:
 
+```text
 C → Consistency
 A → Availability
 P → Partition Tolerance
+```
 
-The theorem says:
+The core idea is:
 
-In a distributed system, when a network partition occurs, you have to choose between Consistency and Availability.
+> **When a network partition occurs in a distributed system, you must trade off between Consistency and Availability.**
 
-The important part is when a partition happens.
+The most important part of CAP is **what happens when a network partition occurs**.
 
-1. First, what is a distributed system?
+<h2>What is a Distributed System?</h2>
 
-Suppose our database has multiple nodes:
+A distributed system has multiple machines or nodes working together.
 
+For example:
+
+```text
              Application
                   │
           ┌───────┴───────┐
           ▼               ▼
        Node 1           Node 2
+```
 
-Normally they can communicate:
+Normally, the nodes can communicate:
 
+```text
 Node 1 ←──── Network ────→ Node 2
+```
 
 But what if the network connection breaks?
 
+```text
 Node 1       ❌       Node 2
 
-        Network failure
+        Network Failure
+```
 
-Both nodes are still running.
+Both nodes may still be running.
 
-But they cannot communicate with each other.
+The problem is:
 
-That's a network partition.
+> **They can no longer communicate with each other.**
 
-2. C — Consistency
+This is called a **Network Partition**.
 
-Consistency means:
+<h2>C — Consistency</h2>
 
-Every read gets the most recent valid write.
+In CAP, consistency means that every read receives the **most recent valid value according to the system's consistency guarantee**.
 
-Example:
+For example:
 
-User balance = ₹1000
+```text
+Initial Balance
+₹1000
+```
 
 We update it:
 
-₹1000 → ₹500
+```text
+₹1000
+   ↓
+₹500
+```
 
-After the successful write:
+After a successful write, under a strong consistency guarantee:
 
+```text
 Read Node 1 → ₹500
 Read Node 2 → ₹500
+```
 
-We don't want one node saying:
+We don't want one node returning:
 
+```text
 ₹500
+```
 
-and another saying:
+while another returns:
 
+```text
 ₹1000
+```
 
 when the system promises strong consistency.
 
-3. A — Availability
+<h3>Simple Idea</h3>
 
-Availability means:
+> **Consistency = Don't return conflicting or stale data when the system promises the latest value.**
 
-Every request receives a response, even if some nodes have problems.
+<h2>A — Availability</h2>
+
+Availability means that the system continues responding to requests even when some nodes are unavailable.
 
 Suppose:
 
+```text
 Node 1 ❌
 Node 2 ✅
 Node 3 ✅
+```
 
-The system should still respond using healthy nodes.
+The system should still be able to respond using healthy nodes when its availability guarantee permits it.
 
+```text
 Client
    │
    ▼
-Node 2 → Response ✅
+Node 2
+   │
+   ▼
+Response ✅
+```
 
-So availability means the system remains operational and responsive.
+<h3>Simple Idea</h3>
 
-4. P — Partition Tolerance
+> **Availability = The system keeps responding to requests.**
 
-Partition tolerance means:
+<h2>P — Partition Tolerance</h2>
 
-The system continues operating despite network communication failures between nodes.
+Partition tolerance means the system can continue operating despite a network communication failure between nodes.
 
-Example:
+For example:
 
+```text
 Node 1       ❌       Node 2
-        Network partition
 
-If the system can continue handling the situation, it is partition tolerant.
+        Network Partition
+```
 
-5. Now the interesting part 🔥
+The nodes are still running, but they cannot communicate.
 
-Suppose:
+A partition-tolerant distributed system is designed to handle this situation.
 
+<h3>Simple Idea</h3>
+
+> **Partition Tolerance = Continue operating despite network communication failures.**
+
+<h2>The Core CAP Problem 🔥</h2>
+
+Suppose we have:
+
+```text
              Network Partition
                     ❌
         ┌───────────┴───────────┐
         ▼                       ▼
       Node A                  Node B
+```
 
-Client sends:
+A client sends:
 
+```text
 WRITE balance = ₹500
+```
 
 to Node A.
 
-Node A accepts it.
+Node A accepts the write:
+
+```text
+Node A
+Balance = ₹500
+```
 
 But Node B cannot communicate with Node A.
 
 Now another client asks Node B:
 
+```text
 READ balance
+```
+
+Node B has an old value:
+
+```text
+Balance = ₹1000
+```
 
 What should Node B do?
 
-Option 1 — Choose Consistency
+<h2>Option 1 — Prefer Consistency</h2>
 
 Node B says:
 
-"I don't know whether my data is up to date."
+> "I cannot safely determine whether my data is up to date."
 
-So it refuses/delays the request.
+So it refuses or delays the request.
 
+```text
 Node B
-  │
-  └── ❌ Cannot safely return data
+   │
+   └── ❌ Cannot safely return data
+```
 
-We maintain:
+Result:
 
+```text
 Consistency ✅
 Availability ❌
+```
 
-This is a CP-style choice.
+This is a **CP-style choice**.
 
-6. Option 2 — Choose Availability
+The system prefers returning correct/consistent data even if some requests cannot be served during the partition.
+
+<h2>Option 2 — Prefer Availability</h2>
 
 Node B says:
 
-"I'll return the data I currently have."
+> "I'll return the data I currently have."
 
 It responds:
 
-balance = ₹1000
+```text
+Balance = ₹1000
+```
 
-even though the latest value might be:
+even though the latest value may be:
 
-₹500
+```text
+Balance = ₹500
+```
 
-Now:
+Result:
 
+```text
 Availability ✅
 Consistency ❌
+```
 
-This is an AP-style choice.
+This is an **AP-style choice**.
 
-7. Why can't we have C + A + P?
+The system continues responding even though some responses may temporarily contain stale data.
 
-This is the core of CAP.
+<h2>Why Can't We Have C + A + P?</h2>
+
+This is the core idea of CAP.
 
 During a network partition:
 
+```text
        Network Partition
               ↓
-       Can't communicate
+       Nodes can't communicate
               ↓
       ┌───────┴───────┐
-      ↓               ↓
+      ▼               ▼
    Node A           Node B
+```
+
+Suppose Node B receives a read.
 
 If Node B responds immediately:
 
+```text
 Availability ✅
+```
 
-but it might return stale/conflicting data:
+But it might return stale or conflicting data:
 
+```text
 Consistency ❌
+```
 
-If Node B refuses to respond until it can safely know the latest data:
+If Node B refuses to respond until it can safely determine the correct value:
 
+```text
 Consistency ✅
+```
 
-but:
+But:
 
+```text
 Availability ❌
+```
 
-Therefore, during a partition, you must trade off C vs A.
+Therefore:
 
-8. CP vs AP
-CP — Consistency + Partition Tolerance
-Partition happens
+> **During a network partition, a distributed system must trade off between Consistency and Availability.**
+
+<h2>CP — Consistency + Partition Tolerance</h2>
+
+A CP system prefers consistency when a partition occurs.
+
+```text
+Network Partition
        ↓
-Prefer correct/latest data
+Prefer correct/consistent data
        ↓
-Some requests may fail/delay
+Some requests may fail or wait
+```
 
-Use when incorrect/stale data is unacceptable.
+The system may sacrifice availability for consistency.
 
-Examples can include certain financial or coordination systems.
+<h3>When Is CP Useful?</h3>
 
-AP — Availability + Partition Tolerance
-Partition happens
+Use stronger consistency when incorrect or conflicting data can cause serious problems.
+
+Examples may include:
+
+- Certain financial systems
+- Distributed coordination
+- Systems managing critical shared state
+- Unique resource allocation
+
+The exact choice depends on the application's requirements.
+
+<h2>AP — Availability + Partition Tolerance</h2>
+
+An AP system prefers availability when a partition occurs.
+
+```text
+Network Partition
        ↓
 Keep responding
        ↓
-Temporary inconsistency allowed
+Temporary inconsistency may occur
+       ↓
+Reconcile / converge later
+```
 
-Useful when the system must remain available and temporary stale data is acceptable.
+The system sacrifices immediate consistency to remain available.
 
-Examples can include some social feeds, counters, or distributed content systems.
+<h3>When Is AP Useful?</h3>
 
-9. What about CA?
+AP-style behavior can be useful when temporary stale or conflicting data is acceptable.
+
+Examples may include:
+
+- Some social feeds
+- Some counters
+- Some distributed content systems
+- Systems where availability is more important than immediate consistency
+
+<h2>What About CA?</h2>
 
 You may see:
 
+```text
 CA
 CP
 AP
+```
 
-But there's an important catch.
+But there is an important catch.
 
-A truly distributed system cannot simply ignore network partitions.
+A truly distributed system cannot simply assume that network partitions will never happen.
+
+If a network partition occurs, you must deal with it.
 
 So:
 
+```text
 CA
+ ↓
+Assumes no partition
+```
 
-is generally only meaningful when you assume no partition, such as a single-node system or a tightly connected system where partition tolerance isn't being considered.
+This can be meaningful for systems where partition tolerance is not being considered, such as a single-node system.
 
-In real distributed systems:
+But for real distributed systems:
 
-P is generally unavoidable
+```text
+Network Failures
+       ↓
+Can Happen
+       ↓
+Partition Tolerance Matters
+```
 
-So the practical CAP discussion becomes:
+Therefore, the practical CAP discussion is usually:
 
-CP  vs  AP
-10. Real-world intuition
+```text
+CP vs AP
+```
+
+<h2>Real-World Analogy: ATM</h2>
 
 Imagine two ATM machines:
 
+```text
 ATM A                 ATM B
 ₹10,000               ₹10,000
+```
 
-Network between them breaks:
+The network between them breaks:
 
+```text
 ATM A       ❌       ATM B
+```
 
 Someone withdraws ₹8,000 from ATM A.
 
-Now ATM B still thinks:
+ATM A now knows:
 
-₹10,000
+```text
+₹2,000 remaining
+```
 
-If ATM B allows another ₹8,000 withdrawal:
+But ATM B still thinks:
 
-Total withdrawn = ₹16,000
+```text
+₹10,000 remaining
+```
 
-Potentially bad. 💀
+Now another person tries to withdraw ₹8,000 from ATM B.
 
-A CP-oriented approach might reject/delay the second operation until the system can safely coordinate.
+If ATM B allows it:
 
-An AP-oriented system might continue accepting operations and reconcile later, if the business rules allow that model.
+```text
+First withdrawal  → ₹8,000
+Second withdrawal → ₹8,000
 
-⚠️ Very Important Interview Point
+Total → ₹16,000
+```
 
-Don't say:
+This could violate the actual account balance.
 
-"CAP means you can only choose 2 out of 3."
+A CP-oriented approach might reject or delay the second operation until the system can safely coordinate.
 
-That's an oversimplification.
+An AP-oriented system might continue accepting operations and reconcile later **if the business model allows that behavior**.
 
-The better answer is:
+<h2>CAP Is Not "Choose Any 2 of 3"</h2>
 
-CAP says that when a network partition occurs, a distributed system must trade off consistency and availability. Partition tolerance is not really optional for a distributed system because network failures can happen.
+This is a very common interview mistake.
 
-🔥 That's the interview-quality explanation.
+Don't simply say:
 
-🧠 Quick Revision
-CAP
+> "CAP means you can only choose 2 out of 3."
 
-C → Consistency
-    Latest/correct data
+That is an oversimplification.
 
-A → Availability
-    Keep responding
+The better explanation is:
 
-P → Partition Tolerance
-    Survive network communication failure
+> **CAP says that when a network partition occurs, a distributed system must trade off between consistency and availability. Partition tolerance is generally unavoidable in a distributed system because network failures can happen.**
 
-During partition:
+<h2>CAP vs Normal Consistency</h2>
 
-             Partition
-                 ↓
-          ┌──────┴──────┐
-          ↓             ↓
-         CP             AP
-          ↓             ↓
-   Consistency      Availability
-       ↑                 ↑
-   May reject       May return
-    requests         stale data
+CAP consistency should not be confused with the **Consistency** in ACID.
+
+<h3>ACID Consistency</h3>
+
+ACID consistency means a transaction preserves the database's defined rules and constraints.
+
+```text
+Transaction
+    ↓
+Database Rules
+    ↓
+Valid Database State
+```
+
+<h3>CAP Consistency</h3>
+
+CAP consistency is about what happens when data is distributed across multiple nodes.
+
+```text
+Multiple Nodes
+      ↓
+Network Partition
+      ↓
+What value should a read return?
+```
+
+So:
+
+```text
+ACID Consistency
+→ Preserve database invariants
+
+CAP Consistency
+→ Consistent view of distributed data
+```
+
+They are related concepts, but they are **not the same thing**.
+
+<h2>CAP in System Design</h2>
+
+When designing a distributed system, ask:
+
+```text
+Can the system tolerate
+temporary stale data?
+          │
+     ┌────┴────┐
+     │         │
+    YES        NO
+     │         │
+     ▼         ▼
+    AP        CP
+```
+
+This is a simplified decision guide.
+
+In a real system, the exact consistency and availability guarantees can be more nuanced than simply labeling the entire database "CP" or "AP."
+
+<h2>CP vs AP</h2>
+
+| CP | AP |
+|---|---|
+| Consistency + Partition Tolerance | Availability + Partition Tolerance |
+| Prefers consistent data during partition | Prefers continued responses during partition |
+| Some requests may fail or wait | Some responses may be stale |
+| Useful when correctness is critical | Useful when availability is critical |
+| Sacrifices some availability during partition | Sacrifices immediate consistency during partition |
+
+<h2>Simple CAP Example</h2>
+
+Suppose:
+
+```text
+             Network Partition
+                    ❌
+              ┌─────┴─────┐
+              ▼           ▼
+            Node A       Node B
+```
+
+Latest value:
+
+```text
+Node A → ₹500
+Node B → ₹1000
+```
+
+<h3>CP Approach</h3>
+
+```text
+Read Node B
+     ↓
+Cannot confirm latest value
+     ↓
+Reject / Delay
+     ↓
+Consistency ✅
+Availability ❌
+```
+
+<h3>AP Approach</h3>
+
+```text
+Read Node B
+     ↓
+Return current value
+     ↓
+₹1000
+     ↓
+Availability ✅
+Consistency ❌
+```
+
+<h2>Interview Answer</h2>
+
+If the interviewer asks:
+
+> **What is CAP Theorem?**
+
+A strong HLD answer is:
+
+> "CAP Theorem states that when a network partition occurs in a distributed system, the system has to trade off between consistency and availability. Partition tolerance is generally required because network failures can happen. A CP system prefers consistency during a partition, potentially rejecting or delaying some requests, while an AP system prefers availability and may temporarily return stale or conflicting data."
+
+<h3>What Does C Mean?</h3>
+
+> **Consistency means reads observe the latest valid value according to the system's consistency guarantee.**
+
+<h3>What Does A Mean?</h3>
+
+> **Availability means the system continues responding to requests according to its availability guarantee.**
+
+<h3>What Does P Mean?</h3>
+
+> **Partition tolerance means the system can handle network communication failures between distributed nodes.**
+
+<h3>Why Can't We Have C + A During a Partition?</h3>
+
+> "During a network partition, nodes cannot communicate. If we always respond, we may return stale or
