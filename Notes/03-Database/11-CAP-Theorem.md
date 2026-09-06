@@ -21,8 +21,8 @@ A distributed system has multiple machines or nodes working together.
 For example:
 
 ```text
-             Application
-                  │
+               Application
+                    │
           ┌───────┴───────┐
           ▼                 ▼
         Node 1             Node 2
