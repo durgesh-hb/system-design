@@ -1,4 +1,4 @@
-## CAP Theorem ⭐⭐⭐⭐⭐
+## CAP Theorem
 
 CAP stands for:
 
@@ -24,8 +24,8 @@ For example:
              Application
                   │
           ┌───────┴───────┐
-          ▼               ▼
-       Node 1           Node 2
+          ▼                 ▼
+        Node 1             Node 2
 ```
 
 Normally, the nodes can communicate:
@@ -37,7 +37,7 @@ Node 1 ←──── Network ────→ Node 2
 But what if the network connection breaks?
 
 ```text
-Node 1       ❌       Node 2
+Node 1              Node 2
 
         Network Failure
 ```
