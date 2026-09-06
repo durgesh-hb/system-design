@@ -12,6 +12,9 @@ The core idea is:
 
 > **When a network partition occurs in a distributed system, you must trade off between Consistency and Availability.**
 
+<img src="/images/cap-theorem-pic.png" alt="cap therorem" width="80%" height="430">
+
+
 The most important part of CAP is **what happens when a network partition occurs**.
 
 <h2>What is a Distributed System?</h2>
