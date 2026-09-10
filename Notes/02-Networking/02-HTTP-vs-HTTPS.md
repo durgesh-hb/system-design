@@ -2,8 +2,6 @@
 
 HTTP and HTTPS are the foundation of communication between a **Client** and a **Server**.
 
-Without understanding HTTP, topics like **REST APIs, Load Balancers, Authentication, WebSockets, and Microservices** become much harder to understand.
-
 <h3>Why Do We Need HTTP?</h3>
 
 Imagine you open Instagram.
