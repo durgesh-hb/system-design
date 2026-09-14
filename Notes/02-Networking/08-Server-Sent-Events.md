@@ -62,7 +62,7 @@ That's **Server-Sent Events (SSE).**
 
 <h2>What is SSE?</h2>
 
-> **Definition : Server-Sent Events (SSE) is a technology where the server keeps an HTTP connection open and continuously sends updates to the client.**
+> **Definition : Server-Sent Events (SSE) is a technology where the server keeps an HTTP connection open and continuously sends updates to the client and it is one-way communication.**
 
 Simply:
 
