@@ -94,7 +94,7 @@ Shard Selection
 Shard 3
 ```
 
-Choosing a good shard key is **very important**.
+Choosing a good shard key is very important
 
 A poor shard key can cause:
 
