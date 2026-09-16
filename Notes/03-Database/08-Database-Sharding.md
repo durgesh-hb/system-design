@@ -25,7 +25,7 @@ Eventually:
 - Too many requests hit one machine
 - Vertical scaling becomes expensive or reaches hardware limits
 
-So we distribute the data across **multiple database servers**.
+So we need to distribute the data across **multiple database servers**.
 
 <h2>What is Sharding?</h2>
 
