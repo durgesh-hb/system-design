@@ -25,7 +25,7 @@ Imagine:
 ```text
 100,000 requests
        ↓
-   Database 🔥
+   Database 
 ```
 
 The database can become overloaded.
