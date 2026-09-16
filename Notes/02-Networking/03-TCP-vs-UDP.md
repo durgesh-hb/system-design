@@ -106,7 +106,6 @@ Examples:
 - REST APIs
 - Database Communication
 
-
 <h2>UDP (User Datagram Protocol)</h2>
 
 > **Definition : UDP is a fast, connectionless protocol that does not guarantee delivery or order.**
