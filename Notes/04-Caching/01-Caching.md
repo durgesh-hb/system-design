@@ -1,12 +1,3 @@
-
-
-
-```text
-100,000 requests
-       ↓
-   Database 
-```
-
 The database can become overloaded.
 
 <h2>Adding a Cache</h2>
