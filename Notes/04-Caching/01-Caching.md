@@ -1,20 +1,5 @@
 
 
-```text
-Without Cache:
-
-User
- ↓
-Application
- ↓
-Database
- ↓
-Response
-```
-
-Every request reaches the database.
-
-Imagine:
 
 ```text
 100,000 requests
