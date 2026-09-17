@@ -1,10 +1,4 @@
-## Caching 
 
-<h2>What is a Cache?</h2>
-
-A **cache is a fast storage layer that temporarily stores frequently accessed data so we don't have to repeatedly fetch it from a slower database or service.**
-
-The basic problem:
 
 ```text
 Without Cache:
