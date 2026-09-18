@@ -1,4 +1,4 @@
-## Caching ⭐⭐⭐⭐⭐
+## Caching 
 
 <h2>What is a Cache?</h2>
 
@@ -25,7 +25,7 @@ Imagine:
 ```text
 100,000 requests
        ↓
-   Database 🔥
+   Database 
 ```
 
 The database can become overloaded.
@@ -95,8 +95,8 @@ A cache is typically designed for **very fast access** and often keeps frequentl
 ```text
              Speed
 
-Database      🐌
-Cache         ⚡
+Database      slow
+Cache         fast
 ```
 
 For example:
@@ -138,7 +138,7 @@ Response
 
 The application can return the cached data directly.
 
-<h3>Cache Miss ❌</h3>
+<h3>Cache Miss </h3>
 
 A **cache miss** occurs when the requested data is not available in the cache.
 
@@ -147,7 +147,7 @@ Request
    ↓
 Cache
    ↓
-Not Found ❌
+Not Found 
    ↓
 Database
    ↓
