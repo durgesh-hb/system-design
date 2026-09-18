@@ -30,7 +30,6 @@ Imagine:
 
 The database can become overloaded.
 
----
 
 <h2>Adding a Cache</h2>
 
@@ -86,8 +85,6 @@ User
 
 The database doesn't need to be contacted for that request.
 
----
-
 <h2>Why is Cache Faster?</h2>
 
 A cache is typically designed for **very fast access** and often keeps frequently accessed data in memory.
@@ -116,7 +113,6 @@ This can significantly reduce:
 - Response latency
 - Repeated database queries
 
----
 
 <h2>Cache Hit vs Cache Miss</h2>
 
@@ -158,8 +154,6 @@ Response
 
 The next request can potentially be served from the cache.
 
----
-
 <h2>Simple Real-World Example</h2>
 
 Imagine an online store with a popular product:
@@ -198,7 +192,6 @@ Product data
 
 Only when the cache doesn't contain the required data does the application need to query the database.
 
----
 
 <h2>Where Does Cache Sit?</h2>
 
@@ -221,8 +214,6 @@ A commonly used caching technology is **Redis**.
 > **Redis is a technology used for caching; caching itself is an architectural concept.**
 
 Other caching technologies exist as well. The important HLD concept is understanding **why and where caching is used**, not just memorizing Redis.
-
----
 
 <h2>Why Not Store Everything in Cache?</h2>
 
@@ -258,8 +249,6 @@ This leads to one of the biggest challenges in caching:
 
 Cache invalidation determines **when cached data should be removed or updated**.
 
----
-
 <h2>What Should We Cache?</h2>
 
 Good candidates for caching are usually data that is frequently accessed, expensive to retrieve or calculate, and relatively stable.
@@ -290,8 +279,6 @@ Data that doesn't change frequently is often easier to cache.
 
 If data changes extremely frequently, caching it can become more complicated because the system must deal with stale values and invalidation.
 
----
-
 <h2>Core Caching Flow</h2>
 
 The fundamental caching pattern is:
@@ -317,8 +304,6 @@ The fundamental caching pattern is:
 The basic idea is:
 
 > **Check the cache first. If the data exists, return it. If not, fetch it from the database, store it in the cache, and return it.**
-
----
 
 <h2>Key Takeaways</h2>
 
