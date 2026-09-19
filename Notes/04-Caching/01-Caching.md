@@ -1,29 +1,3 @@
-The database can become overloaded.
-
-<h2>Adding a Cache</h2>
-
-For example:
-
-```text
-GET /product/123
-```
-
-<h3>First Request</h3>
-
-```text
-Application
-    ↓
-Cache ❌
-    ↓
-Database
-    ↓
-Product 123
-    ↓
-Cache
-    ↓
-User
-```
-The application retrieves the data from the database and stores it in the cache.
 
 <h3>Next Request</h3>
 
