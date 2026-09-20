@@ -1,18 +1,5 @@
 ## Caching 
 
-```
-
-The application retrieves the data from the database and stores it in the cache.
-
-<h3>Next Request</h3>
-
-```text
-Application
-    ↓
-Cache ✅
-    ↓
-User
-```
 
 The database doesn't need to be contacted for that request.
 
