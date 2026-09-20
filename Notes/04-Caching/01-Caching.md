@@ -1,18 +1,7 @@
 ## Caching 
 
 
-The database doesn't need to be contacted for that request.
 
-<h2>Why is Cache Faster?</h2>
-
-A cache is typically designed for **very fast access** and often keeps frequently accessed data in memory.
-
-```text
-             Speed
-
-Database      slow
-Cache         fast
-```
 
 For example:
 
