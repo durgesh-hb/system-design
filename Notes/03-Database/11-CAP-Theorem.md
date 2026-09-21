@@ -10,7 +10,7 @@ P → Partition Tolerance
 
 The core idea is:
 
-> **When a network partition occurs in a distributed system, you must trade off between Consistency and Availability.**
+> **When a network partition occurs in a distributed system, you must trade off between Consistency and Availability.** means you need to select ether Consistency or Availability
 
 <img src="/images/cap-theorem-pic.png" alt="cap therorem" width="60%" height="430">
 
