@@ -1,32 +1,6 @@
 ## Caching 
 
-<h2>What is a Cache?</h2>
-
-A **cache is a fast storage layer that temporarily stores frequently accessed data so we don't have to repeatedly fetch it from a slower database or service.**
-
-The basic problem:
-
-```text
-Without Cache:
-
-User
- ↓
-Application
- ↓
-Database
- ↓
-Response
-```
-
-Every request reaches the database.
-
-Imagine:
-
-```text
-100,000 requests
-       ↓
-   Database 
-```
+<h2>Wh
 
 The database can become overloaded.
 
