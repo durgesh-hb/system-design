@@ -1,25 +1,5 @@
 ## Caching 
 
-<h2>Wh
-
-The database can become overloaded.
-
-
-<h2>Adding a Cache</h2>
-
-A cache sits between the application and the database:
-
-```text
-User
- ↓
-Application
- ↓
- Cache
-  │
-  ├── Found → Return data ✅
-  │
-  └── Not Found
-        ↓
       Database
 ```
 
