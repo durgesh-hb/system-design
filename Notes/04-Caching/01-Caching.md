@@ -1,28 +1,5 @@
 ## Caching 
 
-      Database
-```
-
-For example:
-
-```text
-GET /product/123
-```
-
-<h3>First Request</h3>
-
-```text
-Application
-    ↓
-Cache ❌
-    ↓
-Database
-    ↓
-Product 123
-    ↓
-Cache
-    ↓
-User
 ```
 
 The application retrieves the data from the database and stores it in the cache.
