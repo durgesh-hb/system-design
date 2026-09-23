@@ -1,4 +1,4 @@
-## Caching ⭐⭐⭐⭐⭐
+## Caching
 
 <h2>What is a Cache?</h2>
 
@@ -30,8 +30,6 @@ Imagine:
 
 The database can become overloaded.
 
----
-
 <h2>Adding a Cache</h2>
 
 A cache sits between the application and the database:
@@ -43,7 +41,7 @@ Application
  ↓
  Cache
   │
-  ├── Found → Return data ✅
+  ├── Found → Return data 
   │
   └── Not Found
         ↓
@@ -61,7 +59,7 @@ GET /product/123
 ```text
 Application
     ↓
-Cache ❌
+Cache 
     ↓
 Database
     ↓
@@ -79,14 +77,12 @@ The application retrieves the data from the database and stores it in the cache.
 ```text
 Application
     ↓
-Cache ✅
+Cache 
     ↓
 User
 ```
 
 The database doesn't need to be contacted for that request.
-
----
 
 <h2>Why is Cache Faster?</h2>
 
@@ -95,8 +91,8 @@ A cache is typically designed for **very fast access** and often keeps frequentl
 ```text
              Speed
 
-Database      🐌
-Cache         ⚡
+Database      slow
+Cache         fast
 ```
 
 For example:
@@ -116,13 +112,11 @@ This can significantly reduce:
 - Response latency
 - Repeated database queries
 
----
-
 <h2>Cache Hit vs Cache Miss</h2>
 
 These are two important caching terms.
 
-<h3>Cache Hit ✅</h3>
+<h3>Cache Hit</h3>
 
 A **cache hit** occurs when the requested data already exists in the cache.
 
@@ -131,14 +125,14 @@ Request
    ↓
 Cache
    ↓
-Found ✅
+Found 
    ↓
 Response
 ```
 
 The application can return the cached data directly.
 
-<h3>Cache Miss ❌</h3>
+<h3>Cache Miss </h3>
 
 A **cache miss** occurs when the requested data is not available in the cache.
 
@@ -147,7 +141,7 @@ Request
    ↓
 Cache
    ↓
-Not Found ❌
+Not Found 
    ↓
 Database
    ↓
@@ -157,48 +151,6 @@ Response
 ```
 
 The next request can potentially be served from the cache.
-
----
-
-<h2>Simple Real-World Example</h2>
-
-Imagine an online store with a popular product:
-
-```text
-iPhone
-Price: ₹70,000
-Name: iPhone XYZ
-```
-
-Thousands of users request the same product.
-
-<h3>Without Cache</h3>
-
-```text
-100,000 users
-      ↓
-Application
-      ↓
-Database 🔥
-```
-
-The database receives a large number of repeated requests.
-
-<h3>With Cache</h3>
-
-```text
-100,000 users
-      ↓
-Application
-      ↓
-   Cache ⚡
-      ↓
-Product data
-```
-
-Only when the cache doesn't contain the required data does the application need to query the database.
-
----
 
 <h2>Where Does Cache Sit?</h2>
 
@@ -221,8 +173,6 @@ A commonly used caching technology is **Redis**.
 > **Redis is a technology used for caching; caching itself is an architectural concept.**
 
 Other caching technologies exist as well. The important HLD concept is understanding **why and where caching is used**, not just memorizing Redis.
-
----
 
 <h2>Why Not Store Everything in Cache?</h2>
 
