@@ -27,8 +27,8 @@ For example:
               Application
                   │
           ┌───────┴───────┐
-          ▼                 ▼
-        Node 1             Node 2
+          ▼               ▼
+        Node 1          Node 2
 ```
 
 Normally, the nodes can communicate:
