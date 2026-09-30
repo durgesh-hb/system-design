@@ -27,7 +27,7 @@ to
 
 <h3>Definition</h3>
 
-> System Design is the process of deciding how different components of a software system work together to meet functional and non-functional requirements.
+> System Design is the process of deciding how different components of a software system work together to meet functional and non-functional requirements.   
 
 <h3>Goals of System Design</h3>
 
