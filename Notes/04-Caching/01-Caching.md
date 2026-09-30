@@ -116,7 +116,7 @@ This can significantly reduce:
 
 These are two important caching terms.
 
-<h3>Cache Hit ✅</h3>
+<h3>Cache Hit </h3>
 
 A **cache hit** occurs when the requested data already exists in the cache.
 
@@ -125,14 +125,14 @@ Request
    ↓
 Cache
    ↓
-Found ✅
+Found 
    ↓
 Response
 ```
 
 The application can return the cached data directly.
 
-<h3>Cache Miss ❌</h3>
+<h3>Cache Miss</h3>
 
 A **cache miss** occurs when the requested data is not available in the cache.
 
@@ -141,7 +141,7 @@ Request
    ↓
 Cache
    ↓
-Not Found ❌
+Not Found
    ↓
 Database
    ↓
@@ -151,8 +151,6 @@ Response
 ```
 
 The next request can potentially be served from the cache.
-
----
 
 <h2>Simple Real-World Example</h2>
 
@@ -173,7 +171,7 @@ Thousands of users request the same product.
       ↓
 Application
       ↓
-Database 🔥
+Database 
 ```
 
 The database receives a large number of repeated requests.
