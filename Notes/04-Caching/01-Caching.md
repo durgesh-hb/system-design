@@ -1,4 +1,4 @@
-## Caching ⭐⭐⭐⭐⭐
+## Caching 
 
 <h2>What is a Cache?</h2>
 
@@ -25,12 +25,10 @@ Imagine:
 ```text
 100,000 requests
        ↓
-   Database 🔥
+   Database
 ```
 
 The database can become overloaded.
-
----
 
 <h2>Adding a Cache</h2>
 
@@ -43,7 +41,7 @@ Application
  ↓
  Cache
   │
-  ├── Found → Return data ✅
+  ├── Found → Return data 
   │
   └── Not Found
         ↓
@@ -61,7 +59,7 @@ GET /product/123
 ```text
 Application
     ↓
-Cache ❌
+Cache 
     ↓
 Database
     ↓
@@ -79,14 +77,12 @@ The application retrieves the data from the database and stores it in the cache.
 ```text
 Application
     ↓
-Cache ✅
+Cache 
     ↓
 User
 ```
 
 The database doesn't need to be contacted for that request.
-
----
 
 <h2>Why is Cache Faster?</h2>
 
@@ -95,8 +91,8 @@ A cache is typically designed for **very fast access** and often keeps frequentl
 ```text
              Speed
 
-Database      🐌
-Cache         ⚡
+Database      slow
+Cache         fast
 ```
 
 For example:
@@ -115,8 +111,6 @@ This can significantly reduce:
 - Database load
 - Response latency
 - Repeated database queries
-
----
 
 <h2>Cache Hit vs Cache Miss</h2>
 
