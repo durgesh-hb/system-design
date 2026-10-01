@@ -1,318 +1,416 @@
-```text
-Without Cache:
+## Read-Through Cache ⭐⭐⭐⭐⭐
 
-User
- ↓
-Application
- ↓
-Database
- ↓
-Response
-```
+<h2>What is Read-Through Cache?</h2>
 
-Every request reaches the database.
+The main idea is:
 
-Imagine:
+> **The application talks to the cache, and the cache is responsible for fetching data from the database when there is a cache miss.**
 
-```text
-100,000 requests
-       ↓
-   Database
-```
+The key difference is **who handles the database lookup on a cache miss**.
 
-The database can become overloaded.
+- **Cache-Aside** → Application handles the database lookup.
+- **Read-Through** → Cache layer handles the database lookup.
 
-<h2>Adding a Cache</h2>
+---
 
-A cache sits between the application and the database:
+<h2>Cache-Aside vs Read-Through</h2>
 
-```text
-User
- ↓
-Application
- ↓
- Cache
-  │
-  ├── Found → Return data 
-  │
-  └── Not Found
-        ↓
-      Database
-```
+<h3>Cache-Aside</h3>
 
-For example:
-
-```text
-GET /product/123
-```
-
-<h3>First Request</h3>
+The **application manages both the cache and database**.
 
 ```text
 Application
-    ↓
-Cache 
-    ↓
-Database
-    ↓
-Product 123
-    ↓
-Cache
-    ↓
-User
+    │
+    ├────→ Cache
+    │        │
+    │       MISS
+    │        │
+    └────→ Database
 ```
 
-The application retrieves the data from the database and stores it in the cache.
+The application says:
 
-<h3>Next Request</h3>
+> "Cache doesn't have the data, so I'll get it from the database."
+
+The application is responsible for:
+
+```text
+Check Cache
+     ↓
+Cache Miss
+     ↓
+Query Database
+     ↓
+Store in Cache
+     ↓
+Return Data
+```
+
+---
+
+<h3>Read-Through</h3>
+
+The application only communicates with the cache:
 
 ```text
 Application
-    ↓
-Cache 
-    ↓
-User
+      │
+      ▼
+    Cache
+      │
+    MISS
+      │
+      ▼
+  Database
 ```
 
-The database doesn't need to be contacted for that request.
+The **cache layer itself** handles the database lookup when the requested data is missing.
 
-<h2>Why is Cache Faster?</h2>
+The application doesn't explicitly query the database for that read.
 
-A cache is typically designed for **very fast access** and often keeps frequently accessed data in memory.
+---
+
+<h2>How Read-Through Works</h2>
+
+Suppose the application needs:
 
 ```text
-             Speed
-
-Database      slow
-Cache         fast
+GET user:101
 ```
 
-For example:
+<h3>Cache Hit</h3>
+
+First, the application asks the cache:
 
 ```text
-Without Cache
-100 requests → 100 DB queries
-
-With Cache
-100 requests → 1 DB query
-               + 99 cache hits
+Application
+     │
+     ▼
+   Cache
 ```
 
-This can significantly reduce:
-
-- Database load
-- Response latency
-- Repeated database queries
-
-<h2>Cache Hit vs Cache Miss</h2>
-
-These are two important caching terms.
-
-<h3>Cache Hit </h3>
-
-A **cache hit** occurs when the requested data already exists in the cache.
+If the data exists:
 
 ```text
-Request
-   ↓
-Cache
-   ↓
-Found 
-   ↓
-Response
+Application
+     │
+     ▼
+   Cache ✅
+     │
+     ▼
+ User 101
 ```
 
-The application can return the cached data directly.
+The cache returns the data.
+
+No database request is required.
+
+---
 
 <h3>Cache Miss</h3>
 
-A **cache miss** occurs when the requested data is not available in the cache.
+If the data doesn't exist:
 
 ```text
-Request
-   ↓
-Cache
-   ↓
-Not Found
-   ↓
+Application
+     │
+     ▼
+   Cache ❌
+     │
+     ▼
+  Database
+```
+
+The **cache layer fetches the data from the database**.
+
+```text
 Database
-   ↓
+    │
+    ▼
+  Cache
+    │
+    ▼
+Application
+```
+
+The cache can then store the retrieved data for future requests.
+
+---
+
+<h2>Complete Read-Through Flow</h2>
+
+```text
+                  Application
+                       │
+                       ▼
+                  Read-Through
+                     Cache
+                   /       \
+                HIT         MISS
+                 │            │
+                 │            ▼
+                 │         Database
+                 │            │
+                 │            ▼
+                 │          Cache
+                 │            │
+                 └────────────┘
+                       │
+                       ▼
+                    Response
+```
+
+The important flow is:
+
+```text
+Application
+     ↓
+Cache
+     ↓
+Cache Hit → Return data
+     ↓
+Cache Miss
+     ↓
+Database
+     ↓
 Store in Cache
-   ↓
+     ↓
+Return data
+```
+
+---
+
+<h2>Main Difference</h2>
+
+This is the most important thing to remember.
+
+<h3>Cache-Aside</h3>
+
+```text
+Application
+    │
+    ├── Cache
+    │
+    └── Database
+```
+
+The **application manages the caching logic**.
+
+On a miss:
+
+```text
+Application
+     ↓
+Cache → MISS
+     ↓
+Application → Database
+     ↓
+Application → Cache
+```
+
+---
+
+<h3>Read-Through</h3>
+
+```text
+Application
+    │
+    ▼
+  Cache
+    │
+    ▼
+Database
+```
+
+The **cache layer manages the database fetching**.
+
+On a miss:
+
+```text
+Application
+     ↓
+Cache → MISS
+     ↓
+Cache → Database
+     ↓
+Cache → Application
+```
+
+---
+
+<h2>Real Example</h2>
+
+Suppose an application needs:
+
+```text
+Product 123
+```
+
+<h3>Cache-Aside</h3>
+
+```text
+Application
+     │
+     ▼
+Cache → MISS
+     │
+     ▼
+Application → Database
+     │
+     ▼
+Application → Cache
+     │
+     ▼
 Response
 ```
 
-The next request can potentially be served from the cache.
-
-<h2>Simple Real-World Example</h2>
-
-Imagine an online store with a popular product:
-
-```text
-iPhone
-Price: ₹70,000
-Name: iPhone XYZ
-```
-
-Thousands of users request the same product.
-
-<h3>Without Cache</h3>
-
-```text
-100,000 users
-      ↓
-Application
-      ↓
-Database 
-```
-
-The database receives a large number of repeated requests.
-
-<h3>With Cache</h3>
-
-```text
-100,000 users
-      ↓
-Application
-      ↓
-   Cache ⚡
-      ↓
-Product data
-```
-
-Only when the cache doesn't contain the required data does the application need to query the database.
+The application explicitly handles the entire process.
 
 ---
 
-<h2>Where Does Cache Sit?</h2>
-
-A typical architecture looks like:
+<h3>Read-Through</h3>
 
 ```text
-Client
-  ↓
-Load Balancer
-  ↓
-Application Server
-  ↓
+Application
+     │
+     ▼
+Cache → MISS
+     │
+     ▼
+Cache → Database
+     │
+     ▼
+Cache → Application
+     │
+     ▼
+Response
+```
+
+The cache layer handles the database lookup and cache population.
+
+---
+
+<h2>Why Use Read-Through?</h2>
+
+Read-through caching can simplify application code.
+
+Without a read-through layer, applications may repeatedly implement:
+
+```text
+Check Cache
+     ↓
+If Miss
+     ↓
+Query Database
+     ↓
+Store in Cache
+     ↓
+Return Data
+```
+
+With read-through:
+
+```text
+Application
+     ↓
 Cache
-  ↓
-Database
+     ↓
+Data
 ```
 
-A commonly used caching technology is **Redis**.
+The caching layer handles the miss behavior.
 
-> **Redis is a technology used for caching; caching itself is an architectural concept.**
-
-Other caching technologies exist as well. The important HLD concept is understanding **why and where caching is used**, not just memorizing Redis.
+This can be useful when multiple applications or services need consistent caching behavior.
 
 ---
 
-<h2>Why Not Store Everything in Cache?</h2>
+<h2>Advantages</h2>
 
-Caching everything is usually not practical.
-
-A cache typically has:
-
-- Limited memory
-- Additional cost
-- Temporary data storage
-- Expiration policies
-- Eviction policies
-
-Most importantly, cached data can become **stale**.
-
-<h3>Example of Stale Data</h3>
-
-Suppose:
-
-```text
-Database:
-Price = ₹70,000
-
-Cache:
-Price = ₹65,000
-```
-
-If the price changes in the database but the cache still contains the old value, users may see outdated information.
-
-This leads to one of the biggest challenges in caching:
-
-> **Cache invalidation**
-
-Cache invalidation determines **when cached data should be removed or updated**.
+- Simplifies application-side read logic.
+- Centralizes cache-miss handling.
+- Reduces repeated cache/database access logic across services.
+- Provides a consistent caching pattern for applications using the same caching layer.
 
 ---
 
-<h2>What Should We Cache?</h2>
+<h2>Important Point About Redis ⚠️</h2>
 
-Good candidates for caching are usually data that is frequently accessed, expensive to retrieve or calculate, and relatively stable.
+Do **not** assume that Redis automatically provides read-through caching.
 
-<h3>Frequently Read Data</h3>
+Redis is primarily a **data store/cache technology**.
 
-Examples:
+Read-through behavior generally requires an appropriate:
 
-```text
-Popular products
-User profiles
-News articles
-```
+- Caching library
+- Framework
+- Cache abstraction
+- Custom caching layer
+- Application architecture
 
-<h3>Expensive to Calculate</h3>
+For HLD interviews, remember the **pattern**, rather than saying:
 
-Examples:
-
-```text
-Complex queries
-Recommendations
-Aggregated results
-```
-
-<h3>Relatively Stable Data</h3>
-
-Data that doesn't change frequently is often easier to cache.
-
-If data changes extremely frequently, caching it can become more complicated because the system must deal with stale values and invalidation.
+> "Redis automatically does read-through caching."
 
 ---
 
-<h2>Core Caching Flow</h2>
+<h2>Cache-Aside vs Read-Through</h2>
 
-The fundamental caching pattern is:
-
-```text
-             REQUEST
-                │
-                ▼
-             CACHE
-            /      \
-          HIT      MISS
-          │          │
-          ▼          ▼
-       Response    DATABASE
-                      │
-                      ▼
-                    CACHE
-                      │
-                      ▼
-                   Response
-```
-
-The basic idea is:
-
-> **Check the cache first. If the data exists, return it. If not, fetch it from the database, store it in the cache, and return it.**
+| Feature | Cache-Aside | Read-Through |
+|---|---|---|
+| Application talks to cache | Yes | Yes |
+| Application directly talks to DB for cache miss | Yes | No |
+| Cache handles DB lookup | No | Yes |
+| Cache population on miss | Application | Cache layer |
+| Application complexity | Higher | Lower |
+| Main idea | Application manages cache | Cache manages cache miss |
 
 ---
 
-<h2>Key Takeaways</h2>
+<h2>Interview Question</h2>
 
-- **Cache** = fast temporary storage for frequently accessed data.
-- Cache reduces repeated database access.
-- **Cache hit** = data found in cache.
-- **Cache miss** = data not found in cache.
-- Caching can reduce database load and improve latency.
-- **Redis** is a popular caching technology.
-- Don't cache everything because memory is limited and cached data can become stale.
-- Good cache candidates are frequently accessed, expensive, and relatively stable data.
-- **Cache invalidation** is one of the major challenges in caching.
-- Caching is an **architectural concept**, while Redis is one technology used to implement it.
+<h3>What's the difference between Cache-Aside and Read-Through?</h3>
+
+A strong answer:
+
+> **"In Cache-Aside, the application directly manages both the cache and database. On a cache miss, the application fetches the data from the database and populates the cache. In Read-Through, the application communicates with the cache, and the caching layer handles fetching data from the database on a cache miss."**
+
+---
+
+<h2>Quick Revision 🚀</h2>
+
+```text
+CACHE-ASIDE
+
+Application
+   │
+   ├──→ Cache
+   │      │
+   │     MISS
+   │      │
+   └──→ Database
+```
+
+**Application handles the miss.**
+
+```text
+READ-THROUGH
+
+Application
+      │
+      ▼
+    Cache
+      │
+     MISS
+      │
+      ▼
+  Database
+```
+
+**Cache layer handles the miss.**
+
+### Memory Trick
+
+> **Cache-Aside → Application goes aside to the DB.**
+
+> **Read-Through → Cache reads through to the DB.**
