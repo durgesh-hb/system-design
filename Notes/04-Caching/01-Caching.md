@@ -1,4 +1,4 @@
-## Read-Through Cache ⭐⭐⭐⭐⭐
+## Read-Through Cache
 
 <h2>What is Read-Through Cache?</h2>
 
@@ -334,7 +334,7 @@ This can be useful when multiple applications or services need consistent cachin
 
 ---
 
-<h2>Important Point About Redis ⚠️</h2>
+<h2>Important Point About Redis</h2>
 
 Do **not** assume that Redis automatically provides read-through caching.
 
