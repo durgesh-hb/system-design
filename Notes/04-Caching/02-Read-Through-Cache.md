@@ -45,8 +45,6 @@ Store in Cache
 Return Data
 ```
 
----
-
 <h3>Read-Through</h3>
 
 The application only communicates with the cache:
@@ -66,8 +64,6 @@ Application
 The **cache layer itself** handles the database lookup when the requested data is missing.
 
 The application doesn't explicitly query the database for that read.
-
----
 
 <h2>How Read-Through Works</h2>
 
@@ -104,8 +100,6 @@ The cache returns the data.
 
 No database request is required.
 
----
-
 <h3>Cache Miss</h3>
 
 If the data doesn't exist:
@@ -133,8 +127,6 @@ Application
 ```
 
 The cache can then store the retrieved data for future requests.
-
----
 
 <h2>Complete Read-Through Flow</h2>
 
@@ -177,8 +169,6 @@ Store in Cache
 Return data
 ```
 
----
-
 <h2>Main Difference</h2>
 
 This is the most important thing to remember.
@@ -207,8 +197,6 @@ Application → Database
 Application → Cache
 ```
 
----
-
 <h3>Read-Through</h3>
 
 ```text
@@ -234,8 +222,6 @@ Cache → Database
      ↓
 Cache → Application
 ```
-
----
 
 <h2>Real Example</h2>
 
@@ -265,8 +251,6 @@ Response
 
 The application explicitly handles the entire process.
 
----
-
 <h3>Read-Through</h3>
 
 ```text
@@ -286,8 +270,6 @@ Response
 ```
 
 The cache layer handles the database lookup and cache population.
-
----
 
 <h2>Why Use Read-Through?</h2>
 
@@ -321,16 +303,12 @@ The caching layer handles the miss behavior.
 
 This can be useful when multiple applications or services need consistent caching behavior.
 
----
-
 <h2>Advantages</h2>
 
 - Simplifies application-side read logic.
 - Centralizes cache-miss handling.
 - Reduces repeated cache/database access logic across services.
 - Provides a consistent caching pattern for applications using the same caching layer.
-
----
 
 <h2>Important Point About Redis ⚠️</h2>
 
@@ -350,7 +328,6 @@ For HLD interviews, remember the **pattern**, rather than saying:
 
 > "Redis automatically does read-through caching."
 
----
 
 <h2>Cache-Aside vs Read-Through</h2>
 
