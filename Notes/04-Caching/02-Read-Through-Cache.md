@@ -328,7 +328,6 @@ For HLD interviews, remember the **pattern**, rather than saying:
 
 > "Redis automatically does read-through caching."
 
-
 <h2>Cache-Aside vs Read-Through</h2>
 
 | Feature | Cache-Aside | Read-Through |
@@ -340,8 +339,6 @@ For HLD interviews, remember the **pattern**, rather than saying:
 | Application complexity | Higher | Lower |
 | Main idea | Application manages cache | Cache manages cache miss |
 
----
-
 <h2>Interview Question</h2>
 
 <h3>What's the difference between Cache-Aside and Read-Through?</h3>
@@ -350,9 +347,7 @@ A strong answer:
 
 > **"In Cache-Aside, the application directly manages both the cache and database. On a cache miss, the application fetches the data from the database and populates the cache. In Read-Through, the application communicates with the cache, and the caching layer handles fetching data from the database on a cache miss."**
 
----
-
-<h2>Quick Revision 🚀</h2>
+<h2>Quick Revision </h2>
 
 ```text
 CACHE-ASIDE
