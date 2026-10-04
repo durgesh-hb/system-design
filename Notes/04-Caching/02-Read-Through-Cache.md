@@ -1,4 +1,4 @@
-## Read-Through Cache ⭐⭐⭐⭐⭐
+## Read-Through Cache
 
 <h2>What is Read-Through Cache?</h2>
 
@@ -10,9 +10,7 @@ The key difference is **who handles the database lookup on a cache miss**.
 
 - **Cache-Aside** → Application handles the database lookup.
 - **Read-Through** → Cache layer handles the database lookup.
-
----
-
+- 
 <h2>Cache-Aside vs Read-Through</h2>
 
 <h3>Cache-Aside</h3>
