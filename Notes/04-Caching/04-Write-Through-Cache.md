@@ -1,4 +1,4 @@
-## Write-Through Cache ⭐⭐⭐⭐⭐
+## Write-Through Cache
 
 <h2>What is Write-Through Cache?</h2>
 
@@ -19,8 +19,6 @@ Application
 ```
 
 The cache participates in the write path and ensures that the database is updated as part of the write operation.
-
----
 
 <h2>Example</h2>
 
@@ -63,8 +61,6 @@ The cache layer passes the write to the database and participates in maintaining
 
 Once the required database write succeeds, the application receives success.
 
----
-
 <h2>Why is it Called Write-Through?</h2>
 
 The name comes from the fact that the write **passes through the cache** to the database.
@@ -80,8 +76,6 @@ Database
 ```
 
 The cache is not merely storing data for reads; it participates directly in the write path.
-
----
 
 <h2>What Happens to the Cache?</h2>
 
@@ -108,8 +102,6 @@ Eren
 ```
 
 This means a subsequent cache read can return the updated value instead of an old cached value.
-
----
 
 <h2>Write-Through vs Cache-Aside</h2>
 
@@ -149,8 +141,6 @@ Response
 
 The **application manages the database and cache separately**.
 
----
-
 <h3>Write-Through</h3>
 
 ```text
@@ -164,8 +154,6 @@ Application
 ```
 
 The **cache participates directly in the write flow**.
-
----
 
 <h2>Read-Through + Write-Through</h2>
 
@@ -215,8 +203,6 @@ Success
 
 The cache participates in updating the database before the write is considered complete.
 
----
-
 <h2>Advantages</h2>
 
 <h3>Cache Stays Relatively Fresh</h3>
@@ -241,8 +227,6 @@ The application doesn't need to manually coordinate every cache update or invali
 
 After a successful write, the updated value can already be available in the cache for subsequent reads.
 
----
-
 <h2>Disadvantages</h2>
 
 <h3>Higher Write Latency</h3>
@@ -263,9 +247,7 @@ before the operation is considered complete.
 
 Therefore, write-through can add latency compared with approaches where cache and database updates are decoupled.
 
----
-
-<h2>Failure Scenario ⚠️</h2>
+<h2>Failure Scenario </h2>
 
 Suppose:
 
@@ -284,8 +266,6 @@ The system must **not simply report success**.
 The caching layer needs to handle the failure correctly so that the cache does not permanently contain data that was never successfully persisted to the database.
 
 This is one reason caching becomes more complex in distributed systems.
-
----
 
 <h2>Write-Through vs Write-Back</h2>
 
@@ -339,8 +319,6 @@ Write-Through → Safer/fresher, potentially slower writes
 Write-Back    → Faster writes, more risk/complexity
 ```
 
----
-
 <h2>Important HLD Point</h2>
 
 Write-through does **not** mean the cache and database are magically transactionally consistent in every implementation.
@@ -351,8 +329,6 @@ For HLD, the key idea is:
 
 > **The database update happens as part of the write-through path rather than being deferred for later.**
 
----
-
 <h2>Interview Question</h2>
 
 <h3>What is Write-Through Caching?</h3>
@@ -361,9 +337,7 @@ A strong answer:
 
 > **"In a write-through cache, write operations go through the cache, and the cache synchronously or as part of the write flow updates the underlying database before the write is considered complete. This helps keep the cache and database relatively synchronized, but can increase write latency."**
 
----
-
-<h2>Quick Revision 🚀</h2>
+<h2>Quick Revision </h2>
 
 ```text
 Cache-Aside
