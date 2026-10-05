@@ -1,349 +1,402 @@
-## Write-Back Cache
+## Cache Invalidation
 
-<h3>What is Write-Back Cache?</h3>
+<h2>What is Cache Invalidation?</h2>
 
-The main idea is:
+**Cache invalidation** is the process of removing or updating stale data from the cache when the underlying data changes.
 
-> **The application writes to the cache first, and the cache updates the database later, asynchronously.**
+The core problem is:
 
-This is the key difference from **Write-Through Cache**.
+> **What happens when the data in the database changes but the cache still contains the old data?**
 
-```text
-Application
-     ↓
-   Cache
-     ↓
-Success ⚡
-
-   ...later...
-
-Cache
-  ↓
-Database
-```
-
-The application does **not wait for the database write** before receiving success.
-
-<h2>Write-Through vs Write-Back</h2>
-
-<h3>Write-Through</h3>
+Example:
 
 ```text
-Application
-     ↓
-   Cache
-     ↓
- Database
-     ↓
-Success
+Database:
+Product price = ₹1000
+
+Cache:
+Product price = ₹1000
 ```
 
-The database is updated as part of the write flow before the operation is considered complete.
-
-<h3>Write-Back</h3>
+The database is updated:
 
 ```text
-Application
-     ↓
-   Cache
-     ↓
-Success ⚡
-
-   ...later...
-
-Cache
-  ↓
-Database
+Database:
+Product price = ₹1200
 ```
 
-The database update happens later, asynchronously.
-
-<h2>Example</h2>
-
-Suppose we have a video view counter:
+But the cache still contains:
 
 ```text
-Video views = 1,000
+Cache:
+Product price = ₹1000 
 ```
 
-A user watches the video:
+The cache now contains **stale data**.
+
+We need a strategy to remove or update that stale value.
+
+<h2>Why is Cache Invalidation Needed?</h2>
+
+Without invalidation:
 
 ```text
-1000 → 1001
+Database → New Data
+Cache    → Old Data
 ```
 
-With Write-Back:
+Users may continue seeing outdated information.
+
+Example:
 
 ```text
-Application
-     ↓
-Cache
-     ↓
-1001
-     ↓
-Success 
+Database → ₹1200
+Cache    → ₹1000
+
+User sees → ₹1000 
 ```
 
-At this moment, the database might still contain:
+Therefore, caching systems need a strategy to keep cached data reasonably fresh.
 
-```text
-Database = 1000
-```
+<h2>Delete the Cache Entry</h2>
 
-Later, the cache persists the updated value:
-
-```text
-Cache
-  ↓
-Database
-  ↓
-1001
-```
-
-The database eventually catches up with the cache.
-
-
-<h2>Why is Write-Back Faster? ⚡</h2>
-
-The application does not have to wait for the database.
-
-<h3>Write-Through</h3>
-
-```text
-App
- ↓
-Cache
- ↓
-DB
- ↓
-Response
-```
-
-The response waits for the database write to complete.
-
-<h3>Write-Back</h3>
-
-```text
-App
- ↓
-Cache
- ↓
-Response ⚡
-
-DB update happens later
-```
-
-Therefore, Write-Back can provide **very low write latency** and can reduce the number of immediate database writes.
-
-<h2>Where is Write-Back Useful?</h2>
-
-Write-Back can be useful when:
-
-- There are very frequent writes.
-- Very low write latency is important.
-- Temporary delay before database persistence is acceptable.
-- The system can tolerate additional consistency and durability complexity.
-
-<h3>View Counters</h3>
-
-```text
-Video views
-```
-
-Millions of users may generate frequent updates.
-
-<h3>Metrics</h3>
-
-```text
-Page views
-Clicks
-Counters
-Events
-```
-
-These workloads may generate large numbers of updates that can sometimes be aggregated before being persisted.
-
-<h3>Gaming</h3>
-
-Some rapidly changing game-state data can potentially use asynchronous persistence, depending on the durability and consistency requirements.
-
-<h2>The Biggest Risk </h2>
-
-The biggest disadvantage is the possibility of losing updates before they reach durable storage.
+One of the most common approaches is to delete the cached value when the underlying data changes.
 
 Suppose:
 
 ```text
+Cache:
+product:123 → ₹1000
+```
+
+The database is updated:
+
+```text
+Database:
+product:123 → ₹1200
+```
+
+Then delete the cache entry:
+
+```text
+DELETE product:123 from Cache
+```
+
+Now:
+
+```text
+Cache:
+product:123 
+```
+
+The next request becomes a cache miss:
+
+```text
 Application
+     ↓
+Cache → MISS
+     ↓
+Database → ₹1200
+     ↓
+Cache → ₹1200
+     ↓
+Response
+```
+
+This approach is commonly used with **Cache-Aside**
+
+<h2>Update the Cache Entry</h2>
+
+Instead of deleting the cached value, we can directly update it.
+
+Before:
+
+```text
+Database → ₹1000
+Cache    → ₹1000
+```
+
+After the update:
+
+```text
+Database → ₹1200
+Cache    → ₹1200
+```
+
+This avoids a cache miss on the next read.
+
+However, coordinating the database and cache can become difficult.
+
+For example:
+
+```text
+Database update → Success 
+Cache update    → Failed 
+```
+
+Now:
+
+```text
+Database → ₹1200
+Cache    → ₹1000 
+```
+
+The cache has become stale again.
+
+<h2>TTL — Time To Live</h2>
+
+**TTL (Time To Live)** specifies how long an item can remain in the cache.
+
+For example:
+
+```text
+product:123
+Price = ₹1000
+TTL = 5 minutes
+```
+
+After the TTL expires:
+
+```text
+Cache entry → EXPIRED
+```
+
+The next request can fetch fresh data:
+
+```text
+Cache MISS
+    ↓
+Database
+    ↓
+Fresh data
     ↓
 Cache
-    ↓
-Success 
 ```
 
-The cache contains:
+TTL is useful when occasional stale data is acceptable.
+
+<h2>TTL Does Not Guarantee Freshness</h2>
+
+This is an important interview point.
+
+Suppose:
 
 ```text
-1001
+TTL = 1 hour
 ```
 
-But the database still contains:
+The database changes after 5 minutes:
 
 ```text
-1000
+Database → ₹1200
+Cache    → ₹1000
 ```
 
-Before the cache persists the update:
+The cache may continue returning:
 
 ```text
-Cache  crashes !!!
+₹1000
 ```
 
-The database may remain:
-
-```text
-1000
-```
-
-The update to `1001` could be lost.
+for the remaining 55 minutes.
 
 Therefore:
 
-> **Write-Back improves write performance but introduces higher durability and consistency risk.**
+> **TTL limits how long data can remain cached; it does not guarantee immediate consistency.**
 
-<h2>Cache Failure and Recovery</h2>
+<h2>Event-Based Invalidation</h2>
 
-Consider a large number of pending writes:
+In larger distributed systems, cache invalidation can be triggered by events.
 
-```text
-1000 writes
-    ↓
-Cache
-    ↓
-Database hasn't received them yet
-```
-
-If the cache fails before those writes are safely persisted:
+Example:
 
 ```text
-1000 updates 
+User updates profile
+        │
+        ▼
+    Database
+        │
+        ▼
+   Event / Queue
+        │
+        ▼
+ Cache Invalidation
+        │
+        ▼
+ Delete user:101
 ```
 
-Therefore, a production Write-Back architecture may need mechanisms such as:
-
-- Durable queues
-- Write-ahead logs or other persistence mechanisms
-- Retry mechanisms
-- Failure recovery
-- Background workers
-- Monitoring and alerting
-
-The exact mechanism depends on the system's durability requirements.
-
-<h2>Write-Back Flow with Asynchronous Persistence</h2>
-
-A more realistic HLD design can look like:
+For example, a:
 
 ```text
-                 Application
-                      │
-                      ▼
-                    Cache
-                      │
-                      ├────────→ Immediate Response ⚡
-                      │
-                      ▼
-                Pending Writes
-                      │
-                      ▼
-              Queue / Worker
-                      │
-                      ▼
-                  Database
+UserUpdated
 ```
 
-The important idea is that the application doesn't wait for the final database persistence.
-
-<h2>Write-Back vs Write-Through</h2>
-
-| Feature | Write-Through | Write-Back |
-|---|---|---|
-| Write goes to cache | Yes | Yes |
-| DB updated during write flow | Yes | No |
-| DB updated later | No | Yes |
-| Write latency | Higher | Lower |
-| Database write load | Higher | Potentially lower |
-| Data-loss risk | Lower | Higher |
-| Consistency complexity | Lower | Higher |
-| Failure handling | Simpler | More complex |
-
-<h2>Memory Trick </h2>
+event can trigger:
 
 ```text
-Write-Through
-→ Cache → DB → Success
+DELETE user:101 from Cache
 ```
+
+This can be useful when multiple services depend on the same underlying data.
+
+<h2>Famous Cache Invalidation Quote</h2>
+
+A famous saying in computer science is:
+
+> **"There are only two hard things in Computer Science: cache invalidation and naming things."**
+
+The reason is that keeping cached data synchronized with changing source data can become surprisingly difficult, especially in distributed systems.
+
+<h2>Common Cache-Aside Invalidation Pattern</h2>
+
+A common approach is to update the database first and then invalidate the cache:
+
+<h3>Write Flow</h3>
 
 ```text
-Write-Back
-→ Cache → Success ⚡
-          ↓
-        DB later
+             WRITE
+               │
+               ▼
+           Database
+               │
+               ▼
+        Delete Cache
 ```
 
-Think:
+<h3>Read Flow</h3>
 
-> **Write-Through = write through to DB before success.**
+```text
+             READ
+               │
+               ▼
+             Cache
+            /     \
+         HIT       MISS
+          │          │
+          ▼          ▼
+       Return       Database
+                       │
+                       ▼
+                     Cache
+                       │
+                       ▼
+                    Return
+```
 
-> **Write-Back = write to cache now, write to DB later.**
+The database remains the source of truth, while the cache is rebuilt when needed.
+
+<h2>Important Race Condition </h2>
+
+Cache invalidation can become difficult when multiple requests operate concurrently.
+
+Suppose two requests happen almost simultaneously:
+
+```text
+Request A → Update DB
+Request B → Read data
+```
+
+Consider this sequence:
+
+```text
+A: Update DB → ₹1200
+B: Read old DB value → ₹1000
+A: Delete cache
+B: Put ₹1000 into cache 
+```
+
+Now we have:
+
+```text
+Database = ₹1200
+Cache    = ₹1000
+```
+
+The cache contains stale data again.
+
+This is why distributed systems may require careful handling using techniques such as:
+
+- Correct operation ordering
+- Versioning
+- Locks where appropriate
+- Event-driven approaches
+- Conditional updates
+- Carefully designed cache-write logic
+
+The exact solution depends on the system's consistency requirements.
+
+For HLD, remember:
+
+> **Cache invalidation is simple conceptually but can become difficult under concurrent and distributed writes.**
+
+<h2>Cache Invalidation Strategies</h2>
+
+```text
+Cache Invalidation
+       │
+       ├── Delete cache entry
+       │
+       ├── Update cache entry
+       │
+       ├── TTL expiration
+       │
+       └── Event-based invalidation
+```
+
+Each strategy has different consistency, complexity, and performance characteristics.
+
+<h2>Delete vs Update vs TTL</h2>
+
+| Strategy | Main Idea | Advantage | Challenge |
+|---|---|---|---|
+| Delete | Remove stale entry | Simple | Causes cache miss |
+| Update | Replace cached value | Avoids immediate miss | Coordination can be difficult |
+| TTL | Expire after a period | Simple and automatic | Data can remain stale until expiry |
+| Event-based | Invalidate from an event | Good for distributed systems | More infrastructure and complexity |
 
 <h2>Interview Question</h2>
 
-<h3>What is Write-Back Caching?</h3>
+<h3>How do you handle stale cache data?</h3>
 
-A strong HLD answer:
+A strong answer:
 
-> **"In Write-Back caching, writes are first stored in the cache and the database is updated asynchronously later. This reduces write latency and can reduce immediate database write load, but introduces additional complexity and a risk of losing updates if the cache fails before the data is safely persisted."**
+> **"We can invalidate the cache when the underlying data changes, update the cached value, or use TTL-based expiration. In distributed systems, event-driven invalidation can also be used. The right approach depends on the required consistency and freshness."**
 
-<h2>Quick Revision 🚀</h2>
+<h2>Quick Revision</h2>
 
 ```text
-Write-Through
-      │
-      ▼
-Application
-      │
-      ▼
-    Cache
-      │
-      ▼
-  Database
-      │
-      ▼
-   Success
+DB changes
+    ↓
+Cache may become stale
+    ↓
+Invalidate / Update Cache
 ```
 
+The main strategies:
+
 ```text
-Write-Back
-      │
-      ▼
-Application
-      │
-      ▼
-    Cache
-      │
-      ▼
-   Success ⚡
-      │
-      │  Later / Async
-      ▼
-  Database
+Delete
+  ↓
+Remove stale entry
+
+Update
+  ↓
+Replace stale value
+
+TTL
+  ↓
+Expire automatically
+
+Event
+  ↓
+Invalidate when data changes
 ```
 
 ### Core Idea
 
-> **Write-Back = fast writes now, database persistence later.**
+> **Cache invalidation keeps cached data from remaining stale after the underlying data changes.**
 
-> **Main benefit → Lower write latency**
+### Most Important Interview Point
 
-> **Main risk → Higher durability and consistency complexity**
+> **There is no single best invalidation strategy. Choose based on freshness requirements, consistency requirements, workload, and system complexity.**
