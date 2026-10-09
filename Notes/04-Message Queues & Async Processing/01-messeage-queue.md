@@ -81,6 +81,37 @@ Consumer   → 300 messages/sec
 - Backlogs can grow if consumers are slow.
 - Monitoring and failure handling add complexity.
 
+## How Is a Message Removed from the Queue?
+
+Imagine the queue contains an order message.
+
+```text
+┌──────────────────────────────────────────┐
+│                  QUEUE                   │
+│  Message: Send order confirmation email  │
+└──────────────────────────────────────────┘
+                     |
+                     v
+┌──────────────────────────────────────────┐
+│                CONSUMER                  │
+│     Receives and processes the message   │
+└──────────────────────────────────────────┘
+                     |
+                     v
+┌──────────────────────────────────────────┐
+│          ACK (Acknowledgement)           │
+│    Consumer confirms successful work     │
+└──────────────────────────────────────────┘
+                     |
+                     v
+┌──────────────────────────────────────────┐
+│             MESSAGE REMOVED              │
+│          Or marked as processed          │
+└──────────────────────────────────────────┘
+```
+
+**Remember:** Process message → Send ACK → Message removed or marked as processed.
+
 <h2>Interview Questions</h2>
 
 **1. Does a message queue guarantee exactly-once processing?**
