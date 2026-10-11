@@ -70,19 +70,21 @@ These are typical patterns, not strict limitations.
 - Application logs and monitoring.
 - Data pipelines between services.
 
-**Q2. Why use Kafka instead of direct service calls?**
+<h3>--> some questions</h3>
+
+** Why use Kafka instead of direct service calls?**
 
 Kafka decouples services and allows consumers to process events independently.
 
-**Q3. Does Kafka delete a message after a consumer reads it?**
+** Does Kafka delete a message after a consumer reads it?**
 
 No, not normally. Events remain according to the retention policy, and consumers track progress using offsets.
 
-**Q4. What is a Kafka broker?**
+** What is a Kafka broker?**
 
 A broker is a Kafka server that stores and serves topic partitions.
 
-**Q5. What is a Kafka topic?**
+** What is a Kafka topic?**
 
 A topic is a named stream of events, such as `orders` or `payments`.
 
