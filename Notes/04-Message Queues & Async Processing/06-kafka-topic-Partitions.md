@@ -15,6 +15,9 @@ Order Service   ──→ orders
 Payment Service ──→ payments
 ```
 
+<img src=/images/kafka-componets.PNG alt="kafka-componets" width="80%" height="400">
+
+
 <h2> What is a Partition?</h2>
 
 A **partition** is an ordered log of events within a topic.
@@ -50,6 +53,9 @@ Topic: orders
 ```
 
 This is a simplified example. Partition replicas may also be distributed across brokers for fault tolerance.
+
+<img src=/images/offset.PNG alt="offset" width="80%" height="400">
+
 
 <h2> How Does Kafka Choose a Partition?</h2>
 
