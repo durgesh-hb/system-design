@@ -2,6 +2,10 @@
 
 A simple URL Shortener built using Java, Spring Boot, and MySQL. It converts long URLs into short links and redirects users to the original URLs.
 
+# Architecture
+
+<img src="./screenshorts/URL-shortener.png" width="90%" alt="Successful URL redirection">
+
 ## Technologies Used
 
 - Java 17
