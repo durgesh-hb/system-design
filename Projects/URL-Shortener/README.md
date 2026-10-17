@@ -35,6 +35,37 @@ A simple URL Shortener built using Java, Spring Boot, and MySQL. It converts lon
 }
 ```
 
+<h2>Screenshots</h2>
+
+<h3>1. Create Short URL</h3>
+
+This screenshot shows the successful creation of a short URL using the POST API in Postman.
+
+<img src="./screenshorts/post-testing.png" width="80%" alt="Create Short URL in Postman">
+
+<h3>2. Database Records</h3>
+
+This screenshot shows the URL mappings stored in the MySQL database.
+
+<img src="./screenshorts/db.png" width="80%" alt="URL mappings in MySQL">
+
+<h3>3. Invalid Short Code</h3>
+
+This screenshot shows the `404 Not Found` response when an invalid short code is requested.
+
+<img src="./screenshorts/not-found.png" width="80%" alt="404 Not Found response">
+
+<h3>4. URL Redirection</h3>
+
+This screenshot shows the redirect response and the original destination opened using the short URL.
+
+<img src="./screenshorts/testing-redirect.png" width="80%" alt="URL redirect testing in Postman">
+
+<img src="./screenshorts/redirecting.png" width="80%" alt="Successful URL redirection">
+
+
+
+
 ## How to Run
 
 1. Clone the repository.
