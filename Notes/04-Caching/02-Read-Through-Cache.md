@@ -310,7 +310,7 @@ This can be useful when multiple applications or services need consistent cachin
 - Reduces repeated cache/database access logic across services.
 - Provides a consistent caching pattern for applications using the same caching layer.
 
-<h2>Important Point About Redis ⚠️</h2>
+<h2>Important Point About Redis </h2>
 
 Do **not** assume that Redis automatically provides read-through caching.
 
