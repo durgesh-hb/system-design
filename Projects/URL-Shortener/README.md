@@ -23,6 +23,7 @@ A simple URL Shortener built using Java, Spring Boot, and MySQL. It converts lon
 - Return `404 Not Found` for invalid short codes.
 
 ## API Endpoints
+Here i used two API end points 
 
 | Method | Endpoint | Description |
 |---|---|---|
