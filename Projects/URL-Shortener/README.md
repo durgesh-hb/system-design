@@ -69,8 +69,6 @@ This screenshot shows the redirect response and the original destination opened 
 <img src="./screenshorts/redirecting.png" width="80%" alt="Successful URL redirection">
 
 
-
-
 ## How to Run
 
 1. Clone the repository.
@@ -80,5 +78,5 @@ This screenshot shows the redirect response and the original destination opened 
 5. Test the APIs using Postman.
 
 ## Purpose
-
+ 
 This project was built to learn Spring Boot, REST APIs, MySQL integration, and High-Level System Design (HLD).
