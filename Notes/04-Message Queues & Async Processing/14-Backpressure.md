@@ -24,7 +24,7 @@ Without proper control:
 - Memory or disk usage increases.
 - Processing latency rises.
 - Consumers and downstream databases may become overloaded.
-
+ 
 <h2> How Can We Handle Backpressure?</h2>
 
 - **Limit producer rate** → Reduce incoming messages.
