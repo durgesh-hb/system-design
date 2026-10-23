@@ -21,6 +21,7 @@ public class UrlShortenerController {
         this.service = service;
     }
 
+	// for generating short url's
     @PostMapping("/api/urls")
     public ResponseEntity<?> createShortUrl(
             @RequestBody Map<String, String> request) {
@@ -45,7 +46,7 @@ public class UrlShortenerController {
     }
     
 
-
+	// for redirecting
 	@GetMapping("/{shortCode}")
 	public ResponseEntity<?> redirect(@PathVariable String shortCode) {
 	    try {
