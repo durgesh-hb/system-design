@@ -13,7 +13,7 @@ Here i am documenting everything i am learning
 ```text
 System-Design/
 │
-├── Notes/
+├── Notes/LLD&HLD
 ├── Diagrams/
 ├── Resources/
 ├── Case Studies/
