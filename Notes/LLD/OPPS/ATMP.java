@@ -1,4 +1,3 @@
-
 //here we are learning the polymorphsim runtime
 class ATM {
 	
@@ -47,7 +46,6 @@ class ATM {
 	
 	}
 	
-	
 	public class ATMP {
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
@@ -56,7 +54,6 @@ class ATM {
 		myatm.getbalance(1234);
 		myatm.withdraw(1000, 1234);
 		myatm.getbalance(1234);
-
 
 	}
 
