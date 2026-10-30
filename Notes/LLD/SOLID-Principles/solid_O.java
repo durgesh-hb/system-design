@@ -1,43 +1,48 @@
-public class Solid_S {
+public class Solid_O {
 	
-	
-	public static class reciptprinter{
+	public interface DiscountStrategy{
 		
-		public void printrecipt(String customername, double amount) {
-			System.out.println("====RECIPT====");
-			System.out.println("customer - " + customername);
-			System.out.println("total amount - " + amount);
-		}
+		double getdiscount(double amount);
+		
 	}
 	
-	public static class sendnotification{
+	public static class regulardiscount implements DiscountStrategy{
 		
-		public void sendmsg(String customername, double amount) {
-			System.out.println("Sending message for customer " + customername + " with bill amount " + amount);
+		@Override
+		public double getdiscount(double amount) {
+			double discount = amount * 0.05;
+			System.out.println("You are regular customer so discount is 10%");
+			return discount;
 		}
+		
 	}
 	
-	public static class checkoutmanager{
+	public static class vipdiscount implements DiscountStrategy{
 		
-		reciptprinter recipt = new reciptprinter();
-		sendnotification msg = new sendnotification();
-		
-		public void processcheckout(String customername, double discount, double billamount) {
-			
-			double topay = billamount - discount;
-			
-			recipt.printrecipt(customername, topay);
-			System.out.println("processing payment for " + customername);
-			msg.sendmsg(customername, topay);
-		}	
+		@Override
+		public double getdiscount(double amount) {
+			double discount = amount * 0.1;
+			System.out.println("your are vip customer so your discount is ");
+			return discount;
+		}
 	}
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-
-		checkoutmanager checkout = new checkoutmanager();
-		checkout.processcheckout("Eren", 50, 1000);
 		
+		double billamount = 1000;
+		
+		// testing regular customer
+		DiscountStrategy regular = new regulardiscount();
+		double finalamount = billamount - regular.getdiscount(billamount);
+		System.out.println("Final amount to be payed after discount = " + finalamount);
+		
+		// testing vip customer
+		DiscountStrategy vip = new vipdiscount();
+		double finalamountforvip = billamount - vip.getdiscount(billamount);
+		System.out.println("Final amount to be payed after discount = " + finalamountforvip);
+		
+
 	}
 
 }
