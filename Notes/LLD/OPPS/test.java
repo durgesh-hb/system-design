@@ -39,11 +39,11 @@ public class test {
 			this.balance = amount;
 		}
 		
-		public void startmachine() { // Concrete
+		public void startmachine() { // Concrete method with body
 			System.out.println("Booting up the hardware for the atm = " + id);
 		}
 		
-		public abstract void dispense(String id, int amount); // contract
+		public abstract void dispense(String id, int amount); // contract method without body
 		
 	}
 	
