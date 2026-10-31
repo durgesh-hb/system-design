@@ -1,5 +1,6 @@
 public class Solid_S {
 	
+		// A class should have only one responsibility and one reason to change.
 	
 	public static class reciptprinter{
 		
