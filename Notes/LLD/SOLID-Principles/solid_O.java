@@ -1,5 +1,7 @@
 public class Solid_O {
 	
+	// Software entities (classes, methods, modules) should be open for extension but closed for modification.
+
 	public interface DiscountStrategy{
 		
 		double getdiscount(double amount);
