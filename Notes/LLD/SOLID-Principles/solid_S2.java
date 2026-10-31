@@ -1,7 +1,7 @@
 package LLDprac;
 
 public class single {
-	
+	// single responsibility here all the class have the one responsibility
 	private String riderid;
 	private String customername;
 	private double distance;
