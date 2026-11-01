@@ -41,7 +41,15 @@ public class single {
 			System.out.println("Total fare " + fare);
 		}
 	}
-	
+
+	public static class checkout{
+		
+		public static void performcheckout(String customer, String riderid, double distance) {
+			double calculatedfare = calculatefare.calculateprice(distance);
+			processpayment.payment(calculatedfare);
+			ridereport.generatereport(customer, riderid, calculatedfare, distance);;
+		}
+	}
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
