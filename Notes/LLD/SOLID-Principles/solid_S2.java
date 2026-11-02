@@ -1,4 +1,3 @@
-package LLD;
 
 public class single {
 	// single responsibility here all the class have the one responsibility
