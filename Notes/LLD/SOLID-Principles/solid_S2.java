@@ -5,7 +5,7 @@ public class single {
 	private String customername;
 	private double distance;
 	private double fare;
-	
+	// here each class hav the 
 	public static class calculatefare {
 		
 		public static double calculateprice(double distance) {

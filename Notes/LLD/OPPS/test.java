@@ -2,7 +2,7 @@
 //here we practiced abstraction and interface
 public class test {
 	
-	// 1. FULL ABSTRACTION
+	// 1 FULL ABSTRACTION
 	interface securityathenticater{
 		// only the contract method
 		boolean login(int id, int pin);
@@ -27,7 +27,7 @@ public class test {
 		
 	}
 	
-	// 2.  PARTIAL ABSTRACTION (Abstract Class)
+	// 2  PARTIAL ABSTRACTION (Abstract Class)
 	
 	public static abstract class smartatm{
 		
@@ -47,7 +47,7 @@ public class test {
 		
 	}
 	
-	 //  3. CONCRETE CLASS EXTENDING THE TEMPLATE
+	 //  3 CONCRETE CLASS EXTENDING THE TEMPLATE
     public static class premiumatm extends smartatm {
 
 		public premiumatm(String id, int amount) {
