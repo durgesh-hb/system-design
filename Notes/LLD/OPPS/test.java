@@ -68,8 +68,7 @@ public class test {
     }
 	
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-
+		
 		securityathenticater athu = new athenticater();
 		athu.login(102, 12340);
 		athu.login(101, 1234);
