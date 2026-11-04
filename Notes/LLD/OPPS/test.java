@@ -1,4 +1,3 @@
-
 //here we practiced abstraction and interface
 public class test {
 	
@@ -11,7 +10,7 @@ public class test {
 	
 	public static class athenticater implements securityathenticater{
 
-		@Override // implemented here of that contract method
+		@Override // implemented here the contract class's contrete method
 		public boolean login(int id, int pin) {
 			System.out.println("Security checking for user = " + id);
 			
