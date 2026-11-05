@@ -31,6 +31,7 @@ public class bankaccount {
 	    }
 	}
 
+    // The parent class promises withdrawal functionality, but one child cannot fulfil that promise
 	class FixedDepositAccount extends bankaccount {
 	
 	    public FixedDepositAccount(double balance) {
