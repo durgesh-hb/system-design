@@ -15,7 +15,7 @@ public class Solid_D {
 		}
 	}
 	
-	static class  smsservice implements messageservice{
+	static class smsservice implements messageservice{
 		
 		@Override
 		public void sendmessage() {
@@ -42,6 +42,11 @@ public class Solid_D {
 		messageservice email = new emailservice();
 		notification notification = new notification(email);
 		notification.sendnotification();
+		
+		messageservice smsservice = new smsservice();
+		notification notification2 = new notification(smsservice);
+		notification2.sendnotification();
+		
 		
 	}
 
