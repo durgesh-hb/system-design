@@ -240,4 +240,4 @@ An important interview question.
 - **Aggregation** → Weak HAS-A.
 - **Composition** → Strong HAS-A.
 
-<img src="uml_diagram_enhanced.png" alt="UML Diagram" width="80%" height="400">
+<img src="uml_diagram.png" alt="UML Diagram" width="80%" height="400">
