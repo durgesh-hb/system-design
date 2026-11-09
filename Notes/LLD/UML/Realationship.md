@@ -239,3 +239,5 @@ An important interview question.
 - **Inheritance** → IS-A.
 - **Aggregation** → Weak HAS-A.
 - **Composition** → Strong HAS-A.
+
+<img src="uml_diagram_enhanced.png" alt="UML Diagram" width="80%" height="400">
