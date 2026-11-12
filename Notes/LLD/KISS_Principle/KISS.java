@@ -17,7 +17,6 @@ public class KISS {
 		boolean ans = age.agecheck(3);
 		System.out.println(ans);
 		
-
 	}
 
 }
