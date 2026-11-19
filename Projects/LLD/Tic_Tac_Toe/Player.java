@@ -1,85 +1,33 @@
-package TicTacToe;
+package Tic_Tac_Toe;
 
-public class standardRules implements Rule{
+public class Player {
 	
-	@Override
-	public boolean isValidMove(int row, int col, Board board) {
-		
-		if(row >= 0 && col >= 0 &&
-		   row < board.getsize() && col < board.getsize()) {
-			
-			return (board.isCellEmpty(row, col));
-		}
-		
-		return false;
-	}
+	private final int playerID;
+	private String playerName;
+	private final Symbol symbol; 
 
-	@Override
-	public boolean checkWin(int row, int col, Board board, Symbol symbol) {
-		
-		int size = board.getsize();
-		// Horizontal
-		for(int i=0; i<size; i++) {
-			boolean win = true;
-			for(int j=0; j<size; j++) {
-				if(board.getsymbol(i, j) != symbol) {
-					win = false;
-					break;
-				}
-			}
-			if(win) return true;
-		}
-		
-		
-		// Vertical
-		for(int i=0; i<size; i++) {
-			boolean win = true;
-			for(int j=0; j<size; j++) {
-				if(board.getsymbol(j, i) != symbol) {
-					win = false;
-					break;
-				}
-			}
-			if(win) return true;
-		}
-		
-		
-		// Main diagonal
-		boolean win = true;
-		for (int i = 0; i < size; i++) {
-		    if (board.getsymbol(i, i) != symbol) {
-		        win = false;
-		        break;
-		    }
-		}
-		if (win) return true;
-		
-		
-		// Other diagonal
-		win = true;
-		for (int i = 0; i < size; i++) {
-		    if (board.getsymbol(i, size - 1 - i) != symbol) {
-		        win = false;
-		        break;
-		    }
-		}
-		if (win) return true;
-		
-		
-		return false;
+	Player(int playerId, String playerName, Symbol symbol){
+		this.playerID = playerId;
+		this.playerName = playerName;
+		this.symbol = symbol;
 	}
-
-	@Override
-	public boolean isDraw(Board board) {
-		
-		for(int row=0; row<board.getsize(); row++) {
-			for(int col=0; col<board.getsize(); col++) {
-				if(board.isCellEmpty(row, col)) {
-					return false;
-				}
-			}
-		}
-		return true;
+	
+	// getter
+	public int getId() {
+		return playerID;
+	}
+	
+	public String getName() {
+		return playerName;
+	}
+	
+	public Symbol getsymbol() {
+		return symbol;
+	}
+	
+	// setter
+	public void setName(String playerName) {
+		this.playerName = playerName;
 	}
 
 }
