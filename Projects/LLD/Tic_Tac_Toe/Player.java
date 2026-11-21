@@ -1,4 +1,4 @@
-package Tic_Tac_Toe;
+package TicTacToe_LLD;
 
 public class Player {
 	
