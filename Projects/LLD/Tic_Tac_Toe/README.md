@@ -6,7 +6,7 @@ The main goal of this project was to understand how to break a problem into clas
 
 ## UML Class Diagram
 
-_Add the UML class diagram here._
+<img src="./Tic_Tac_Toe/tic-toc-toe-UML.png" width="90%" alt="Successful URL redirection">
 
 ## Features
 
