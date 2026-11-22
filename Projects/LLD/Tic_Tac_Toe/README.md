@@ -2,11 +2,12 @@
 
 My first Low Level Design (LLD) project: a simple two-player Tic Tac Toe game built using Java.
 
-The main goal of this project was to understand how to break a problem into classes, assign responsibilities, and make those classes work together.
+The main goal of this project was to understand how to break a problem into classes, assign responsibilities, and make those classes work together. Here, I tried to apply the SOLID design principles
+
 
 ## UML Class Diagram
 
-<img src="./Tic_Tac_Toe/tic-toc-toe-UML.png" width="90%" alt="Successful URL redirection">
+<img src="./tic-toc-toe-UML.png" width="90%" alt="UML Class Diagram">
 
 ## Features
 
