@@ -1,4 +1,4 @@
-package TicTacToe_LLD;
+package LLD.Tic_Tac_Toe;
 
 public class standardRules implements Rule {
 
