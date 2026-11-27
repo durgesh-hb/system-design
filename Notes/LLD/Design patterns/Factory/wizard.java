@@ -1,0 +1,10 @@
+package design_patterns_2;
+
+public class wizard implements troops{
+
+	@Override
+	public void createtroop() {
+		System.out.println("Wizard created");
+	}
+
+}
